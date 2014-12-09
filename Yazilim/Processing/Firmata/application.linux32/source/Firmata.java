@@ -1,35 +1,56 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import oscP5.*; 
+import netP5.*; 
+import processing.serial.*; 
+import cc.arduino.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Firmata extends PApplet {
+
 // TODO
 /*
-- Motorları ters gimeye ayarlar
+- Motorlar\u0131 ters gimeye ayarlar
 - Motor pinlerini gir
 
 
-/* Program Düzenlemesi
- * 1- Tanımlamalar
+/* Program D\u00fczenlemesi
+ * 1- Tan\u0131mlamalar
  * 2- OSC Event
- * 3- Gonderme Fonksiyonları
- * 4- Gelen Bilgiyi İşleme Fonksiyonları
+ * 3- Gonderme Fonksiyonlar\u0131
+ * 4- Gelen Bilgiyi \u0130\u015fleme Fonksiyonlar\u0131
  * 5- Setup
  * 6- Draw 
 */
 
-import oscP5.*;
-import netP5.*;
-import processing.serial.*;
+
+
+
 
 Serial serial;
 OscP5 oscP5;
-import cc.arduino.*;
+
 NetAddress remoteLocation;
 
-color off = color(4, 79, 111);
-color on = color(84, 145, 158);
+int off = color(4, 79, 111);
+int on = color(84, 145, 158);
 
 Arduino arduino_uno;
 Arduino arduino_mega;
 
 
-// ## ARDUINO UNO PİN ## //
+// ## ARDUINO UNO P\u0130N ## //
 int a_motor_sol_on = 6;
 int a_motor_sol_arka = 9;
 int a_motor_sag_on = 10;
@@ -63,7 +84,7 @@ float fgcolor;			// Fill color
 float xpos, ypos;	        // Starting position of the ball
 
 
-// Giriş
+// Giri\u015f
 int giris = 0;
 
 int devam = 0;
@@ -123,7 +144,7 @@ float sensor_kizilotesi = 0;
 
 // ## OSC ## //
 
-void oscEvent(OscMessage theOscMessage) {
+public void oscEvent(OscMessage theOscMessage) {
 
   String addr = theOscMessage.addrPattern();
   float  val  = theOscMessage.get(0).floatValue();
@@ -160,7 +181,7 @@ void oscEvent(OscMessage theOscMessage) {
    
   
   // Giris
-  if(addr.equals("/Giris/multi/3/1")){ // Üçüncü
+  if(addr.equals("/Giris/multi/3/1")){ // \u00dc\u00e7\u00fcnc\u00fc
     if(devam == 1){
       if(devam1 == 1){
         devam2 = 1;
@@ -170,7 +191,7 @@ void oscEvent(OscMessage theOscMessage) {
       }
     }
   }
-  if(addr.equals("/Giris/multi/3/2")){ // İkinci
+  if(addr.equals("/Giris/multi/3/2")){ // \u0130kinci
     if(devam == 1){
       devam1 = 1;
       devam2 = 0;
@@ -187,7 +208,7 @@ void oscEvent(OscMessage theOscMessage) {
     devam4 = 0;
     giris = 0;
   }
-  if(addr.equals("/Giris/multi/2/1")){ // Dördüncü
+  if(addr.equals("/Giris/multi/2/1")){ // D\u00f6rd\u00fcnc\u00fc
     if(devam == 1){
       if(devam1 == 1){
         if(devam2 == 1){
@@ -201,7 +222,7 @@ void oscEvent(OscMessage theOscMessage) {
       giris = 0;
     }
   }
-  if(addr.equals("/Giris/multi/2/2")){ // Beşinci
+  if(addr.equals("/Giris/multi/2/2")){ // Be\u015finci
     if(devam == 1){
       if(devam1 == 1){
         if(devam2 == 1){
@@ -239,7 +260,7 @@ void oscEvent(OscMessage theOscMessage) {
           if(devam2 == 1){
             if(devam3 == 1){
               if(devam4 == 1){
-                println("Giriş Başarılı");
+                println("Giri\u015f Ba\u015far\u0131l\u0131");
                 giris = 1;
               }
             }
@@ -261,8 +282,8 @@ void oscEvent(OscMessage theOscMessage) {
 // ## TELEFONA GONDER ## / (Arduino'dan Geleni Yollama)
 
 
-// Uzaklık
-void gonder_uzaklik(String sol, String on, String sag){
+// Uzakl\u0131k
+public void gonder_uzaklik(String sol, String on, String sag){
   
   OscMessage msg_sol = new OscMessage("/Uzaklik/sol_olcum");
   OscMessage msg_on = new OscMessage("/Uzaklik/on_olcum");
@@ -290,7 +311,7 @@ void gonder_uzaklik(String sol, String on, String sag){
   oscP5.send(msg_sag_l, remoteLocation);
 }
 
-void gonder_uzaklik_sifirla(){ 
+public void gonder_uzaklik_sifirla(){ 
   
   OscMessage msg_sol = new OscMessage("/Uzaklik/sol_olcum");
   OscMessage msg_on = new OscMessage("/Uzaklik/on_olcum");
@@ -320,9 +341,9 @@ void gonder_uzaklik_sifirla(){
 
 
 
-// Işık
+// I\u015f\u0131k
 
-void gonder_isik(int ust, int alt){
+public void gonder_isik(int ust, int alt){
   
   OscMessage msg_ust = new OscMessage("/Isik/ust_olcum");
   OscMessage msg_alt = new OscMessage("/Isik/alt_olcum");
@@ -355,7 +376,7 @@ void gonder_isik(int ust, int alt){
   
 }
 
-void gonder_isik_sifirla(){
+public void gonder_isik_sifirla(){
   
   int olcum = 0;
   int olcum2 = 0;
@@ -382,7 +403,7 @@ void gonder_isik_sifirla(){
 int a = 0;
 int sayi;
 int hareket;
-void gonder_hareket(boolean sayi2, boolean hareket2){
+public void gonder_hareket(boolean sayi2, boolean hareket2){
   
   if(hareket_sifirla == 1){
     sayi = 0;
@@ -408,7 +429,7 @@ void gonder_hareket(boolean sayi2, boolean hareket2){
   
 }
 
-void gonder_hareket_sifirla(){
+public void gonder_hareket_sifirla(){
   
   OscMessage msg_led = new OscMessage("/Hareket/hareket_led");
   OscMessage msg_olcum = new OscMessage("/Hareket/sayi_olcum");
@@ -427,9 +448,9 @@ void gonder_hareket_sifirla(){
 
 
 
-// Yakınlık
+// Yak\u0131nl\u0131k
 
-void gonder_yakinlik(int yakin){
+public void gonder_yakinlik(int yakin){
   
   OscMessage msg_olcum = new OscMessage("/Yakinlik/yakinlik_olcum");
   
@@ -449,7 +470,7 @@ void gonder_yakinlik(int yakin){
   
 }
 
-void gonder_yakinlik_sifirla(){
+public void gonder_yakinlik_sifirla(){
   
   int sayi = 0;
   
@@ -467,7 +488,7 @@ void gonder_yakinlik_sifirla(){
 
 // Voltaj
 
-void gonder_voltaj(float voltaj, float voltaj_uzaklik, float voltaj_yakinlik, float voltaj_isik, float voltaj_kizilotesi, float voltaj_hareket, float voltaj_besleme){
+public void gonder_voltaj(float voltaj, float voltaj_uzaklik, float voltaj_yakinlik, float voltaj_isik, float voltaj_kizilotesi, float voltaj_hareket, float voltaj_besleme){
   
   
   OscMessage msg = new OscMessage("/Voltaj/ana_voltaj"); 
@@ -511,7 +532,7 @@ void gonder_voltaj(float voltaj, float voltaj_uzaklik, float voltaj_yakinlik, fl
   */
 }
 
-void gonder_voltaj_sifirla(){
+public void gonder_voltaj_sifirla(){
   
   OscMessage msg = new OscMessage("/Voltaj/ana_voltaj"); 
   
@@ -548,9 +569,9 @@ void gonder_voltaj_sifirla(){
 
 
 
-// ## SIFIRLAMA ## // (Sadece Arduino'ya gidenler için)
+// ## SIFIRLAMA ## // (Sadece Arduino'ya gidenler i\u00e7in)
 
-void sifirla_motor(){
+public void sifirla_motor(){
   
   OscMessage msg_1 = new OscMessage(s_motor_sol);
   OscMessage msg_2 = new OscMessage(s_motor_sag);
@@ -591,12 +612,12 @@ void sifirla_motor(){
 
 
 
-// ## Arduino'ya Gönderme ## //
+// ## Arduino'ya G\u00f6nderme ## //
 
 
 // Giris
 
-void gonder_giris(){
+public void gonder_giris(){
   
   String basarili = "Giris Yapildi";
   String isim = "ROBOTEXT PLATFORM";
@@ -624,7 +645,7 @@ void gonder_giris(){
 
 // Motor
 
-// Uzaklık
+// Uzakl\u0131k
 
 // Hareket
 
@@ -633,7 +654,7 @@ void gonder_giris(){
 
 
 // ## ARDUINO SENSOR OKUMA ## //
-int[] oku_uzaklik(){
+public int[] oku_uzaklik(){
 
   int[] degerler = new int[3];
   
@@ -648,7 +669,7 @@ int[] oku_uzaklik(){
 
 
 
-void setup() {
+public void setup() {
   size(320,360);
   frameRate(25);
   
@@ -681,7 +702,7 @@ void setup() {
 
 
 // ####### KONTROL ####### //
-void motor_kontrol(){
+public void motor_kontrol(){
   
   if(motor_ters_sol == 1){
     arduino_uno.digitalWrite(a_motor_sol_on_d, Arduino.HIGH);
@@ -700,14 +721,14 @@ void motor_kontrol(){
   }
   
   
-  arduino_uno.analogWrite(a_motor_sag_on, int(motor_sag));
-  arduino_uno.analogWrite(a_motor_sag_arka, int(motor_sag));
-  arduino_uno.analogWrite(a_motor_sol_on, int(motor_sol));
-  arduino_uno.analogWrite(a_motor_sol_arka, int(motor_sol));
+  arduino_uno.analogWrite(a_motor_sag_on, PApplet.parseInt(motor_sag));
+  arduino_uno.analogWrite(a_motor_sag_arka, PApplet.parseInt(motor_sag));
+  arduino_uno.analogWrite(a_motor_sol_on, PApplet.parseInt(motor_sol));
+  arduino_uno.analogWrite(a_motor_sol_arka, PApplet.parseInt(motor_sol));
   
   // LED
   
-  if(int(motor_sag) == 0 && int(motor_sol) == 0){
+  if(PApplet.parseInt(motor_sag) == 0 && PApplet.parseInt(motor_sol) == 0){
     arduino_uno.digitalWrite(led_k_1, Arduino.HIGH);
     arduino_uno.digitalWrite(led_k_2, Arduino.HIGH);
     arduino_uno.digitalWrite(led_y_1, Arduino.LOW);
@@ -727,13 +748,13 @@ void motor_kontrol(){
 
 
 String val;
-int b = 1; // Hareket için
+int b = 1; // Hareket i\u00e7in
 
-void draw() {
+public void draw() {
   
   gonder_giris();
   
-  if(giris == 0){ // Giriş yapılmadıysa
+  if(giris == 0){ // Giri\u015f yap\u0131lmad\u0131ysa
     
     gonder_uzaklik_sifirla();
     gonder_isik_sifirla();
@@ -750,4 +771,13 @@ void draw() {
     
   }
   
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Firmata" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }
