@@ -29,24 +29,53 @@ Arduino arduino_uno;
 Arduino arduino_mega;
 
 
-// ## ARDUINO UNO PİN ## //
-int a_motor_sol_on = 6;
-int a_motor_sol_arka = 9;
-int a_motor_sag_on = 10;
-int a_motor_sag_arka = 11;
+// ## ARDUINO UNO PIN ## //
 
-int a_motor_sol_on_d = 23;
-int a_motor_sol_arka_d = 23;
-int a_motor_sag_on_d = 23;
-int a_motor_sag_arka_d = 23;
+// PWM
+int a_motor_sol_on = 3;
+int a_motor_sol_arka = 5;
+int a_motor_sag_on = 6;
+int a_motor_sag_arka = 9;
 
-int led_k_1 = 12;
-int led_k_2 = 14;
+// YON
+int a_motor_sol_on_d = 2;
+int a_motor_sol_arka_d = 4;
+int a_motor_sag_on_d = 7;
+int a_motor_sag_arka_d = 8;
 
-int led_y_1 = 13;
-int led_y_2 = 15;
+// ENKODER
+int e_motor_sol_on = 0;
+int e_motor_sol_arka = 1;
+int e_motor_sag_on = 2;
+int e_motor_sag_arka = 3;
 
 
+int led_k_1 = 10;
+int led_k_2 = 11;
+
+int led_y_1 = 12;
+int led_y_2 = 13;
+
+
+
+// ## ARDUINO MEGA PIN ## //
+
+// DIGITAL
+int a_kizilotesi_1 = 23;
+int a_hareket_1 = 22;
+int a_hareket_2 = 31;
+int a_hoparlor = 30;
+
+// ANALOG
+int a_ses = 0;
+int a_uzaklik_on_1 = 1;
+int a_uzaklik_on_2 = 2;
+int a_uzaklik_sag_1 = 3;
+int a_uzaklik_sag_2 = 4;
+int a_uzaklik_sol_1 = 5;
+int a_uzaklik_sol_2 = 6;
+
+// PWM
 
 
 String IP = "192.168.42.2";

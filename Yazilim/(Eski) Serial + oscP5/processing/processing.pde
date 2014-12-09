@@ -15,7 +15,7 @@ OscP5 oscP5;
 Serial arduinoPort;
 NetAddress remoteLocation;
 
-String IP = "169.254.129.199";
+String IP = "192.168.42.1";
 
 // ## TANIMLAMALAR ## //
 
