@@ -348,6 +348,46 @@ void oscEvent(OscMessage theOscMessage) {
 // ### GIDEN OSC ### //
 
 
+  // MOTOR
+  
+  void gonder_motor_sifirla(boolean ters){
+    
+    OscMessage msg_1 = new OscMessage(s_motor_sol);
+    OscMessage msg_2 = new OscMessage(s_motor_sag);
+  
+    OscMessage msg_3 = new OscMessage(s_motor_sol_on);
+    OscMessage msg_4 = new OscMessage(s_motor_sol_arka);
+    OscMessage msg_5 = new OscMessage(s_motor_sag_on);
+    OscMessage msg_6 = new OscMessage(s_motor_sag_arka);
+    
+    OscMessage msg_7 = new OscMessage(s_motor_sol_ters);
+    OscMessage msg_8 = new OscMessage(s_motor_sag_ters);
+  
+  
+    msg_1.add(0);
+    msg_2.add(0);
+    msg_3.add(0);
+    msg_4.add(0);
+    msg_5.add(0);
+    msg_6.add(0);
+    msg_7.add(0);
+    msg_8.add(0);
+    
+    oscP5.send(msg_1, remoteLocation);
+    oscP5.send(msg_2, remoteLocation);
+    oscP5.send(msg_3, remoteLocation);
+    oscP5.send(msg_4, remoteLocation);
+    oscP5.send(msg_5, remoteLocation);
+    oscP5.send(msg_6, remoteLocation);
+    
+    if(ters == true){
+      oscP5.send(msg_7, remoteLocation);
+      oscP5.send(msg_8, remoteLocation);
+    }
+  
+  }
+
+
   // UZAKLIK
   
   void gonder_uzaklik(String sol, String on, String sag){
@@ -642,48 +682,6 @@ void oscEvent(OscMessage theOscMessage) {
 
 
 
-// ## SIFIRLAMA ## // (Sadece Arduino'ya gidenler için)
-
-  // 2. SAYFA - MOTOR
-
-  void sifirla_motor(){
-    
-    OscMessage msg_1 = new OscMessage(s_motor_sol);
-    OscMessage msg_2 = new OscMessage(s_motor_sag);
-  
-    OscMessage msg_3 = new OscMessage(s_motor_sol_on);
-    OscMessage msg_4 = new OscMessage(s_motor_sol_arka);
-    OscMessage msg_5 = new OscMessage(s_motor_sag_on);
-    OscMessage msg_6 = new OscMessage(s_motor_sag_arka);
-    
-    OscMessage msg_7 = new OscMessage(s_motor_sol_ters);
-    OscMessage msg_8 = new OscMessage(s_motor_sag_ters);
-  
-  
-    msg_1.add(0);
-    msg_2.add(0);
-    msg_3.add(0);
-    msg_4.add(0);
-    msg_5.add(0);
-    msg_6.add(0);
-    msg_7.add(0);
-    msg_8.add(0);
-    
-    oscP5.send(msg_1, remoteLocation);
-    oscP5.send(msg_2, remoteLocation);
-    oscP5.send(msg_3, remoteLocation);
-    oscP5.send(msg_4, remoteLocation);
-    oscP5.send(msg_5, remoteLocation);
-    oscP5.send(msg_6, remoteLocation);
-    oscP5.send(msg_7, remoteLocation);
-    oscP5.send(msg_8, remoteLocation);
-  
-  }
-
-
-
-
-
 
 
 
@@ -834,15 +832,22 @@ void setup() {
  
  
  
- // ARDUINO MEGA PIN MODE
+  // ARDUINO MEGA PIN MODE
  
- arduino_mega.pinMode(a_uzaklik_sicaklik, Arduino.OUTPUT);
- arduino_mega.pinMode(a_ekran, Arduino.OUTPUT);
+  arduino_mega.pinMode(a_uzaklik_sicaklik, Arduino.OUTPUT);
+  arduino_mega.pinMode(a_ekran, Arduino.OUTPUT);
  
- arduino_mega.pinMode(a_hareket_1, Arduino.INPUT);
- arduino_mega.pinMode(a_hareket_2, Arduino.INPUT);
+  arduino_mega.pinMode(a_hareket_1, Arduino.INPUT);
+  arduino_mega.pinMode(a_hareket_2, Arduino.INPUT);
  
- arduino_mega.pinMode(a_buzzer, Arduino.OUTPUT);
+  arduino_mega.pinMode(a_buzzer, Arduino.OUTPUT);
+ 
+  gonder_motor_sifirla(true);
+  gonder_uzaklik_sifirla();
+  gonder_isik_sifirla();
+  gonder_hareket_sifirla();
+  gonder_yakinlik_sifirla();
+  gonder_voltaj_sifirla();
  
  
 }
@@ -867,13 +872,12 @@ void draw() {
   
   if(giris == 0){ // Giriş yapılmadıysa
     
+    gonder_motor_sifirla(true);
     gonder_uzaklik_sifirla();
     gonder_isik_sifirla();
     gonder_hareket_sifirla();
     gonder_yakinlik_sifirla();
     gonder_voltaj_sifirla();
-    
-    sifirla_motor();
     
     
   }else{
