@@ -25,8 +25,7 @@
 */
 
 
-//String IP = "192.168.42.4";
-String IP = "192.168.1.21";
+String IP = "192.168.42.4";
 
 String s_arduino_uno = "/dev/ttyACM0";
 String s_arduino_mega = "/dev/ttyUSB0";
@@ -697,7 +696,7 @@ void oscEvent(OscMessage theOscMessage) {
     
     println("MOTOR:: SOL: "+int(motor_sol)+" SAG: "+int(motor_sag)+"    YON:: SOL: "+int(motor_sol_ters)+" SAG: "+int(motor_sag_ters)+"    ETKIN:: "+int(motor_etkin_sol_on)+","+int(motor_etkin_sol_arka)+","+int(motor_etkin_sag_on)+","+int(motor_etkin_sag_arka)+"     BUZZER:: "+int(buzzer));
     
-    /*
+    
     
     if(int(motor_etkin_sol_on) == 1)
       arduino_uno.analogWrite(a_motor_sol_on, int(motor_sol));
@@ -756,7 +755,7 @@ void oscEvent(OscMessage theOscMessage) {
       arduino_uno.digitalWrite(a_led_y_2, Arduino.HIGH);
     }
     
-    */
+    
     
   }
 
@@ -767,13 +766,13 @@ void oscEvent(OscMessage theOscMessage) {
     
     println("BUZZER: "+int(buzzer));
     
-    /*
+    
     if(int(buzzer) == 1)
       arduino_mega.digitalWrite(a_buzzer, Arduino.HIGH);
     else{
       arduino_mega.digitalWrite(a_buzzer, Arduino.LOW);
     }
-    */
+    
     
   }
 
@@ -811,19 +810,18 @@ void oscEvent(OscMessage theOscMessage) {
 
 
 void setup() {
-  size(500, 120, P3D);
   //frameRate(25);
   
   println(Arduino.list());
-  //arduino_uno = new Arduino(this, s_arduino_uno, 57600);
-  //arduino_mega = new Arduino(this, s_arduino_mega, 57600);
+  arduino_uno = new Arduino(this, s_arduino_uno, 57600);
+  arduino_mega = new Arduino(this, s_arduino_mega, 57600);
   
   remoteLocation = new NetAddress(IP, 9000);
   oscP5 = new OscP5(this,8000);
   
   // ARDUINO UNO PIN MODE
   
-  /*
+  
   arduino_uno.pinMode(a_motor_sol_on, Arduino.OUTPUT);
   arduino_uno.pinMode(a_motor_sol_arka, Arduino.OUTPUT);
   arduino_uno.pinMode(a_motor_sag_on, Arduino.OUTPUT);
@@ -838,7 +836,7 @@ void setup() {
   arduino_uno.pinMode(a_led_k_2, Arduino.OUTPUT);
   arduino_uno.pinMode(a_led_y_1, Arduino.OUTPUT);
   arduino_uno.pinMode(a_led_y_2, Arduino.OUTPUT);
- */ 
+ 
  
  
  // ARDUINO MEGA PIN MODE
@@ -864,16 +862,6 @@ String val;
 int b = 1; // Hareket için
 
 void draw() {
-  
-  // TEXT
-  
-  textSize(32);
-
-  text("Akçabaat Fen Lisesi", 10, 40);   
-  fill(0, 102, 153);
-  
-  text("ROBOTEXT PLATFORM", 10, 90);  
-  fill(0, 102, 153, 51);
   
   
   
