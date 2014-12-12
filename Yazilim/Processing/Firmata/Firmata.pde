@@ -716,8 +716,7 @@ void oscEvent(OscMessage theOscMessage) {
     else
       arduino_uno.analogWrite(a_motor_sag_arka, 0);
       
-    
-    
+  
     
     if(int(motor_sol_ters) == 1){
       arduino_uno.digitalWrite(a_motor_sol_on_d, Arduino.LOW);
@@ -735,22 +734,32 @@ void oscEvent(OscMessage theOscMessage) {
       arduino_uno.digitalWrite(a_motor_sag_on_d, Arduino.HIGH);
       arduino_uno.digitalWrite(a_motor_sag_arka_d, Arduino.HIGH);
     }
-    
+  
     
     // LED
-    
-    if(int(motor_sag) == 0 && int(motor_sol) == 0){
-      arduino_uno.digitalWrite(a_led_k_1, Arduino.HIGH);
-      arduino_uno.digitalWrite(a_led_k_2, Arduino.HIGH);
-      arduino_uno.digitalWrite(a_led_y_1, Arduino.LOW);
-      arduino_uno.digitalWrite(a_led_y_2, Arduino.LOW);
-    }else{
+      
+    if(int(motor_etkin_sol_on) == 0 && int(motor_etkin_sol_arka) == 0 && int(motor_etkin_sag_on) == 0 && int(motor_etkin_sag_arka) == 0){
+      
       arduino_uno.digitalWrite(a_led_k_1, Arduino.LOW);
       arduino_uno.digitalWrite(a_led_k_2, Arduino.LOW);
-      arduino_uno.digitalWrite(a_led_y_1, Arduino.HIGH);
-      arduino_uno.digitalWrite(a_led_y_2, Arduino.HIGH);
-    }
+      arduino_uno.digitalWrite(a_led_y_1, Arduino.LOW);
+      arduino_uno.digitalWrite(a_led_y_2, Arduino.LOW);
     
+  }else{
+    
+      if(int(motor_sag) == 0 && int(motor_sol) == 0){
+        arduino_uno.digitalWrite(a_led_k_1, Arduino.HIGH);
+        arduino_uno.digitalWrite(a_led_k_2, Arduino.HIGH);
+        arduino_uno.digitalWrite(a_led_y_1, Arduino.LOW);
+        arduino_uno.digitalWrite(a_led_y_2, Arduino.LOW);
+      }else{
+        arduino_uno.digitalWrite(a_led_k_1, Arduino.LOW);
+        arduino_uno.digitalWrite(a_led_k_2, Arduino.LOW);
+        arduino_uno.digitalWrite(a_led_y_1, Arduino.HIGH);
+        arduino_uno.digitalWrite(a_led_y_2, Arduino.HIGH);
+      }
+  
+  }  
     
   }
 
