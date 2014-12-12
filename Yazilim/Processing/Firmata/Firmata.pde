@@ -25,7 +25,7 @@
 */
 
 
-String IP = "192.168.42.8";
+String IP = "192.168.1.20";
 
 String s_arduino_uno = "/dev/ttyACM0";
 String s_arduino_mega = "/dev/ttyUSB0";
@@ -808,11 +808,11 @@ void oscEvent(OscMessage theOscMessage) {
 void setup() {
   
   println(Arduino.list());
-  //arduino_uno = new Arduino(this, s_arduino_uno, 57600);
-  //arduino_mega = new Arduino(this, s_arduino_mega, 57600);
+  arduino_uno = new Arduino(this, s_arduino_uno, 57600);
+  arduino_mega = new Arduino(this, s_arduino_mega, 57600);
   
   remoteLocation = new NetAddress(IP, 9000);
-  oscP5 = new OscP5(this,8000);
+  oscP5 = new OscP5(this,7000);
   
   // ARDUINO UNO PIN MODE
   
