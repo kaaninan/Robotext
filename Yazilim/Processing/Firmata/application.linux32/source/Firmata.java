@@ -1,53 +1,74 @@
-/* Program Düzenlemesi
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import oscP5.*; 
+import netP5.*; 
+import processing.serial.*; 
+import cc.arduino.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Firmata extends PApplet {
+
+/* Program D\u00fczenlemesi
 
   A- TANIMLAMALAR 
-    1- Arduino Uno Pin Tanımlama
-    2- Arduino Mega Pin Tanımlama 
-    3- Open Sound Control Tanımlama
-    4- Processing Tanımlama
+    1- Arduino Uno Pin Tan\u0131mlama
+    2- Arduino Mega Pin Tan\u0131mlama 
+    3- Open Sound Control Tan\u0131mlama
+    4- Processing Tan\u0131mlama
     
   B- OPEN SOUND CONTROL
     1- Gelen Veri
     2- Giden Veri
-    3- Sıfırlamalar
+    3- S\u0131f\u0131rlamalar
   
   C- ARDUINO
-    1- Arduino'ya Manual Veri Gönderme
+    1- Arduino'ya Manual Veri G\u00f6nderme
     2- Arduino'dan Gelen Veri
   
   D- SETUP
     1- Arduino pinMode()
-    2- Serial Başlatma
+    2- Serial Ba\u015flatma
   
   E- DRAW
-    1- Güvenlik Kontrolü
+    1- G\u00fcvenlik Kontrol\u00fc
 
 */
 
 
 //String IP = "192.168.42.4";
-String IP = "192.168.1.21";
+String IP = "192.168.1.23";
 
 String s_arduino_uno = "/dev/ttyACM0";
 String s_arduino_mega = "/dev/ttyUSB0";
 
 
 
-import oscP5.*;
-import netP5.*;
-import processing.serial.*;
-import cc.arduino.*;
+
+
+
 
 OscP5 oscP5;
+
 NetAddress remoteLocation;
 
 Arduino arduino_uno;
 Arduino arduino_mega;
 
 
-// ### ARDUINO PIN ### //
+// ### ARDUINO PIN ### //
 
-  // ## UNO ## //
+  // ## UNO ## //
   
   // PWM
   int a_motor_sol_on = 3;
@@ -87,7 +108,6 @@ Arduino arduino_mega;
   int a_hareket_1 = 22;
   int a_hareket_2 = 31;
   int a_hoparlor = 30;
-  int a_buzzer = 24;
   
   // ANALOG
   int a_ses = 0;
@@ -105,7 +125,7 @@ Arduino arduino_mega;
 
 
 
-// ### OPEN SOUND CONTROL ### //
+// ### OPEN SOUND CONTROL ### //
   
   // 2. SAYFA
   
@@ -142,7 +162,7 @@ Arduino arduino_mega;
 
 // ### PROCESSING ### //
 
-  // GİRİŞ EKRANI
+  // G\u0130R\u0130\u015e EKRANI
   
   int giris = 0;
   
@@ -199,7 +219,7 @@ Arduino arduino_mega;
 
 // ## GELEN OSC ## //
 
-void oscEvent(OscMessage theOscMessage) {
+public void oscEvent(OscMessage theOscMessage) {
 
   String addr = theOscMessage.addrPattern();
   float  val  = theOscMessage.get(0).floatValue();
@@ -245,9 +265,9 @@ void oscEvent(OscMessage theOscMessage) {
    
   
   
-  // GİRİŞ
+  // G\u0130R\u0130\u015e
   
-  if(addr.equals("/Giris/multi/3/1")){ // Üçüncü
+  if(addr.equals("/Giris/multi/3/1")){ // \u00dc\u00e7\u00fcnc\u00fc
     if(devam == 1){
       if(devam1 == 1){
         devam2 = 1;
@@ -257,7 +277,7 @@ void oscEvent(OscMessage theOscMessage) {
       }
     }
   }
-  if(addr.equals("/Giris/multi/3/2")){ // İkinci
+  if(addr.equals("/Giris/multi/3/2")){ // \u0130kinci
     if(devam == 1){
       devam1 = 1;
       devam2 = 0;
@@ -274,7 +294,7 @@ void oscEvent(OscMessage theOscMessage) {
     devam4 = 0;
     giris = 0;
   }
-  if(addr.equals("/Giris/multi/2/1")){ // Dördüncü
+  if(addr.equals("/Giris/multi/2/1")){ // D\u00f6rd\u00fcnc\u00fc
     if(devam == 1){
       if(devam1 == 1){
         if(devam2 == 1){
@@ -288,7 +308,7 @@ void oscEvent(OscMessage theOscMessage) {
       giris = 0;
     }
   }
-  if(addr.equals("/Giris/multi/2/2")){ // Beşinci
+  if(addr.equals("/Giris/multi/2/2")){ // Be\u015finci
     if(devam == 1){
       if(devam1 == 1){
         if(devam2 == 1){
@@ -326,7 +346,7 @@ void oscEvent(OscMessage theOscMessage) {
           if(devam2 == 1){
             if(devam3 == 1){
               if(devam4 == 1){
-                println("Giriş Başarılı");
+                println("Giri\u015f Ba\u015far\u0131l\u0131");
                 giris = 1;
               }
             }
@@ -351,9 +371,9 @@ void oscEvent(OscMessage theOscMessage) {
 
   // UZAKLIK
   
-  void gonder_uzaklik(String sol, String on, String sag){
+  public void gonder_uzaklik(String sol, String on, String sag){
     
-    OscMessage msg_on = new OscMessage("/Motor/uzaklik_on");
+    OscMessage msg_on = new OscMessage(s_uzaklik_on);
     OscMessage msg_sag = new OscMessage(s_uzaklik_sag);
     OscMessage msg_sol = new OscMessage(s_uzaklik_sol);
     
@@ -368,7 +388,7 @@ void oscEvent(OscMessage theOscMessage) {
     
   }
 
-  void gonder_uzaklik_sifirla(){ 
+  public void gonder_uzaklik_sifirla(){ 
     
     OscMessage msg_on = new OscMessage(s_uzaklik_on);
     OscMessage msg_sag = new OscMessage(s_uzaklik_sag);
@@ -388,7 +408,7 @@ void oscEvent(OscMessage theOscMessage) {
 
   // ISIK
   
-  void gonder_isik(int ust, int alt){
+  public void gonder_isik(int ust, int alt){
     
     OscMessage msg_ust = new OscMessage("/Isik/ust_olcum");
     OscMessage msg_alt = new OscMessage("/Isik/alt_olcum");
@@ -421,7 +441,7 @@ void oscEvent(OscMessage theOscMessage) {
     
   }
   
-  void gonder_isik_sifirla(){
+  public void gonder_isik_sifirla(){
     
     int olcum = 0;
     int olcum2 = 0;
@@ -448,7 +468,7 @@ void oscEvent(OscMessage theOscMessage) {
   int a = 0;
   int sayi;
   int hareket;
-  void gonder_hareket(boolean sayi2, boolean hareket2){
+  public void gonder_hareket(boolean sayi2, boolean hareket2){
     
     if(hareket_sifirla == 1){
       sayi = 0;
@@ -474,7 +494,7 @@ void oscEvent(OscMessage theOscMessage) {
     
   }
   
-  void gonder_hareket_sifirla(){
+  public void gonder_hareket_sifirla(){
     
     OscMessage msg_led = new OscMessage("/Hareket/hareket_led");
     OscMessage msg_olcum = new OscMessage("/Hareket/sayi_olcum");
@@ -495,7 +515,7 @@ void oscEvent(OscMessage theOscMessage) {
   
   // YAKINLIK
   
-  void gonder_yakinlik(int yakin){
+  public void gonder_yakinlik(int yakin){
     
     OscMessage msg_olcum = new OscMessage("/Yakinlik/yakinlik_olcum");
     
@@ -515,7 +535,7 @@ void oscEvent(OscMessage theOscMessage) {
     
   }
   
-  void gonder_yakinlik_sifirla(){
+  public void gonder_yakinlik_sifirla(){
     
     int sayi = 0;
     
@@ -533,7 +553,7 @@ void oscEvent(OscMessage theOscMessage) {
   
   // VOLTAJ
   
-  void gonder_voltaj(float voltaj, float voltaj_uzaklik, float voltaj_yakinlik, float voltaj_isik, float voltaj_kizilotesi, float voltaj_hareket, float voltaj_besleme){
+  public void gonder_voltaj(float voltaj, float voltaj_uzaklik, float voltaj_yakinlik, float voltaj_isik, float voltaj_kizilotesi, float voltaj_hareket, float voltaj_besleme){
     
     
     OscMessage msg = new OscMessage("/Voltaj/ana_voltaj"); 
@@ -577,7 +597,7 @@ void oscEvent(OscMessage theOscMessage) {
     */
   }
   
-  void gonder_voltaj_sifirla(){
+  public void gonder_voltaj_sifirla(){
     
     OscMessage msg = new OscMessage("/Voltaj/ana_voltaj"); 
     
@@ -611,7 +631,7 @@ void oscEvent(OscMessage theOscMessage) {
 
   // GIRIS
   
-  void gonder_giris(){
+  public void gonder_giris(){
     
     String basarili = "Giris Yapildi";
     String isim = "ROBOTEXT";
@@ -643,11 +663,11 @@ void oscEvent(OscMessage theOscMessage) {
 
 
 
-// ## SIFIRLAMA ## // (Sadece Arduino'ya gidenler için)
+// ## SIFIRLAMA ## // (Sadece Arduino'ya gidenler i\u00e7in)
 
   // 2. SAYFA - MOTOR
 
-  void sifirla_motor(){
+  public void sifirla_motor(){
     
     OscMessage msg_1 = new OscMessage(s_motor_sol);
     OscMessage msg_2 = new OscMessage(s_motor_sag);
@@ -688,43 +708,42 @@ void oscEvent(OscMessage theOscMessage) {
 
 
 
-// ## ARDUINO'YA GONDERME ## // (MANUAL)
+// ## ARDUINO'YA GONDERME ## // (MANUAL)
   
   
   // MOTOR
   
-  void motor_kontrol(){
+  public void motor_kontrol(){
     
-    println("MOTOR:: SOL: "+int(motor_sol)+" SAG: "+int(motor_sag)+"    YON:: SOL: "+int(motor_sol_ters)+" SAG: "+int(motor_sag_ters)+"    ETKIN:: "+int(motor_etkin_sol_on)+","+int(motor_etkin_sol_arka)+","+int(motor_etkin_sag_on)+","+int(motor_etkin_sag_arka)+"     BUZZER:: "+int(buzzer));
+    println("MOTOR:: SOL: "+PApplet.parseInt(motor_sol)+" SAG: "+PApplet.parseInt(motor_sag)+"    YON:: SOL: "+PApplet.parseInt(motor_sol_ters)+" SAG: "+PApplet.parseInt(motor_sag_ters)+"    ETKIN:: "+PApplet.parseInt(motor_etkin_sol_on)+","+PApplet.parseInt(motor_etkin_sol_arka)+","+PApplet.parseInt(motor_etkin_sag_on)+","+PApplet.parseInt(motor_etkin_sag_arka)+"     BUZZER:: "+PApplet.parseInt(buzzer));
     
-    /*
     
-    if(int(motor_etkin_sol_on) == 1)
-      arduino_uno.analogWrite(a_motor_sol_on, int(motor_sol));
+    if(PApplet.parseInt(motor_etkin_sol_on) == 1)
+      arduino_uno.analogWrite(a_motor_sol_on, PApplet.parseInt(motor_sol));
     else
       arduino_uno.analogWrite(a_motor_sol_on, 0);
       
-    if(int(motor_etkin_sol_arka) == 1)
-      arduino_uno.analogWrite(a_motor_sol_arka, int(motor_sol));
+    if(PApplet.parseInt(motor_etkin_sol_arka) == 1)
+      arduino_uno.analogWrite(a_motor_sol_arka, PApplet.parseInt(motor_sol));
     else
       arduino_uno.analogWrite(a_motor_sol_arka, 0);
       
       
      
-    if(int(motor_etkin_sag_on) == 1)
-      arduino_uno.analogWrite(a_motor_sag_on, int(motor_sag));
+    if(PApplet.parseInt(motor_etkin_sag_on) == 1)
+      arduino_uno.analogWrite(a_motor_sag_on, PApplet.parseInt(motor_sag));
     else
       arduino_uno.analogWrite(a_motor_sag_on, 0);
       
-    if(int(motor_etkin_sag_arka) == 1)
-      arduino_uno.analogWrite(a_motor_sag_arka, int(motor_sag));
+    if(PApplet.parseInt(motor_etkin_sag_arka) == 1)
+      arduino_uno.analogWrite(a_motor_sag_arka, PApplet.parseInt(motor_sag));
     else
       arduino_uno.analogWrite(a_motor_sag_arka, 0);
       
     
     
     
-    if(int(motor_sol_ters) == 1){
+    if(PApplet.parseInt(motor_sol_ters) == 1){
       arduino_uno.digitalWrite(a_motor_sol_on_d, Arduino.LOW);
       arduino_uno.digitalWrite(a_motor_sol_arka_d, Arduino.LOW);
     }else{
@@ -733,7 +752,7 @@ void oscEvent(OscMessage theOscMessage) {
     }
     
     
-    if(int(motor_sag_ters) == 1){
+    if(PApplet.parseInt(motor_sag_ters) == 1){
       arduino_uno.digitalWrite(a_motor_sag_on_d, Arduino.LOW);
       arduino_uno.digitalWrite(a_motor_sag_arka_d, Arduino.LOW);
     }else{
@@ -744,7 +763,7 @@ void oscEvent(OscMessage theOscMessage) {
     
     // LED
     
-    if(int(motor_sag) == 0 && int(motor_sol) == 0){
+    if(PApplet.parseInt(motor_sag) == 0 && PApplet.parseInt(motor_sol) == 0){
       arduino_uno.digitalWrite(a_led_k_1, Arduino.HIGH);
       arduino_uno.digitalWrite(a_led_k_2, Arduino.HIGH);
       arduino_uno.digitalWrite(a_led_y_1, Arduino.LOW);
@@ -756,25 +775,6 @@ void oscEvent(OscMessage theOscMessage) {
       arduino_uno.digitalWrite(a_led_y_2, Arduino.HIGH);
     }
     
-    */
-    
-  }
-
-
-
-
-  void buzzer_kontrol(){
-    
-    println("BUZZER: "+int(buzzer));
-    
-    /*
-    if(int(buzzer) == 1)
-      arduino_mega.digitalWrite(a_buzzer, Arduino.HIGH);
-    else{
-      arduino_mega.digitalWrite(a_buzzer, Arduino.LOW);
-    }
-    */
-    
   }
 
 
@@ -782,25 +782,17 @@ void oscEvent(OscMessage theOscMessage) {
 
 // ## ARDUINO'DAN GELEN ## //
 
-  int[] oku_uzaklik(){
+  public int[] oku_uzaklik(){
   
-    // SIRA:  ON, SAG, SOL
-    
     int[] degerler = new int[3];
     
-    degerler[0] = arduino_uno.analogRead(1) + arduino_uno.analogRead(2);
-    degerler[1] = arduino_uno.analogRead(3) + arduino_uno.analogRead(4);
-    degerler[2] = arduino_uno.analogRead(5) + arduino_uno.analogRead(6);
+    degerler[0] = 12;
+    degerler[1] = 12212;
+    degerler[2] = 2121;
     
     return degerler;
     
   }
-  
-  void oku_hareket(){
-    
-    
-    
-  }
 
 
 
@@ -810,7 +802,7 @@ void oscEvent(OscMessage theOscMessage) {
 
 
 
-void setup() {
+public void setup() {
   size(500, 120, P3D);
   //frameRate(25);
   
@@ -840,17 +832,6 @@ void setup() {
   arduino_uno.pinMode(a_led_y_2, Arduino.OUTPUT);
  */ 
  
- 
- // ARDUINO MEGA PIN MODE
- 
- arduino_mega.pinMode(a_uzaklik_sicaklik, Arduino.OUTPUT);
- arduino_mega.pinMode(a_ekran, Arduino.OUTPUT);
- 
- arduino_mega.pinMode(a_hareket_1, Arduino.INPUT);
- arduino_mega.pinMode(a_hareket_2, Arduino.INPUT);
- 
- arduino_mega.pinMode(a_buzzer, Arduino.OUTPUT);
- 
 }
 
 
@@ -861,15 +842,15 @@ void setup() {
 
 
 String val;
-int b = 1; // Hareket için
+int b = 1; // Hareket i\u00e7in
 
-void draw() {
+public void draw() {
   
   // TEXT
   
   textSize(32);
 
-  text("Akçabaat Fen Lisesi", 10, 40);   
+  text("Ak\u00e7abaat Fen Lisesi", 10, 40);   
   fill(0, 102, 153);
   
   text("ROBOTEXT PLATFORM", 10, 90);  
@@ -879,11 +860,9 @@ void draw() {
   
   // GIRIS
   
-  //gonder_giris();
+  gonder_giris();
   
-  giris = 1;
-  
-  if(giris == 0){ // Giriş yapılmadıysa
+  if(giris == 0){ // Giri\u015f yap\u0131lmad\u0131ysa
     
     gonder_uzaklik_sifirla();
     gonder_isik_sifirla();
@@ -897,10 +876,16 @@ void draw() {
   }else{
     
     motor_kontrol();
-    buzzer_kontrol();
-    
-    gonder_uzaklik("23,2","3,11","6,6");
     
   }
   
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Firmata" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }

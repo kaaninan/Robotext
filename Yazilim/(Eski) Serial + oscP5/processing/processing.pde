@@ -15,7 +15,7 @@ OscP5 oscP5;
 Serial arduinoPort;
 NetAddress remoteLocation;
 
-String IP = "192.168.42.1";
+String IP = "192.168.1.21";
 
 // ## TANIMLAMALAR ## //
 
@@ -629,9 +629,9 @@ void setup() {
   frameRate(25);
   
   println(Serial.list());
-  arduinoPort = new Serial(this, Serial.list()[6], 115200);
+  //arduinoPort = new Serial(this, Serial.list()[6], 115200);
   
-  arduinoPort.bufferUntil('\n');
+  //arduinoPort.bufferUntil('\n');
   
   remoteLocation = new NetAddress(IP, 9000);
   oscP5 = new OscP5(this,8000);
@@ -652,9 +652,9 @@ int b = 1; // Hareket için
 
 void draw() {
   
-  arduinoPort.write(int(motor_sol)+","+int(motor_sag)+","+int(motor_ters));
+  //arduinoPort.write(int(motor_sol)+","+int(motor_sag)+","+int(motor_ters));
   println(int(motor_sag)+","+int(motor_sol)+","+int(motor_ters));
-  arduinoPort.write('\n');
+  //arduinoPort.write('\n');
   
   
   background(0);
@@ -690,8 +690,7 @@ void draw() {
   rect(244,20 + 255 - motor_sag_arka*255,60,motor_sag_arka*255);
   
   
-  //gonder_giris();
-  giris = 1;
+  gonder_giris();
   
   if(giris == 0){ // Giriş yapılmadıysa
     

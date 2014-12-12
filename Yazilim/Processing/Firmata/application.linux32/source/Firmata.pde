@@ -26,7 +26,7 @@
 
 
 //String IP = "192.168.42.4";
-String IP = "192.168.1.21";
+String IP = "192.168.1.23";
 
 String s_arduino_uno = "/dev/ttyACM0";
 String s_arduino_mega = "/dev/ttyUSB0";
@@ -36,9 +36,9 @@ String s_arduino_mega = "/dev/ttyUSB0";
 import oscP5.*;
 import netP5.*;
 import processing.serial.*;
-import cc.arduino.*;
 
 OscP5 oscP5;
+import cc.arduino.*;
 NetAddress remoteLocation;
 
 Arduino arduino_uno;
@@ -87,7 +87,6 @@ Arduino arduino_mega;
   int a_hareket_1 = 22;
   int a_hareket_2 = 31;
   int a_hoparlor = 30;
-  int a_buzzer = 24;
   
   // ANALOG
   int a_ses = 0;
@@ -353,7 +352,7 @@ void oscEvent(OscMessage theOscMessage) {
   
   void gonder_uzaklik(String sol, String on, String sag){
     
-    OscMessage msg_on = new OscMessage("/Motor/uzaklik_on");
+    OscMessage msg_on = new OscMessage(s_uzaklik_on);
     OscMessage msg_sag = new OscMessage(s_uzaklik_sag);
     OscMessage msg_sol = new OscMessage(s_uzaklik_sol);
     
@@ -697,7 +696,6 @@ void oscEvent(OscMessage theOscMessage) {
     
     println("MOTOR:: SOL: "+int(motor_sol)+" SAG: "+int(motor_sag)+"    YON:: SOL: "+int(motor_sol_ters)+" SAG: "+int(motor_sag_ters)+"    ETKIN:: "+int(motor_etkin_sol_on)+","+int(motor_etkin_sol_arka)+","+int(motor_etkin_sag_on)+","+int(motor_etkin_sag_arka)+"     BUZZER:: "+int(buzzer));
     
-    /*
     
     if(int(motor_etkin_sol_on) == 1)
       arduino_uno.analogWrite(a_motor_sol_on, int(motor_sol));
@@ -756,25 +754,6 @@ void oscEvent(OscMessage theOscMessage) {
       arduino_uno.digitalWrite(a_led_y_2, Arduino.HIGH);
     }
     
-    */
-    
-  }
-
-
-
-
-  void buzzer_kontrol(){
-    
-    println("BUZZER: "+int(buzzer));
-    
-    /*
-    if(int(buzzer) == 1)
-      arduino_mega.digitalWrite(a_buzzer, Arduino.HIGH);
-    else{
-      arduino_mega.digitalWrite(a_buzzer, Arduino.LOW);
-    }
-    */
-    
   }
 
 
@@ -784,21 +763,13 @@ void oscEvent(OscMessage theOscMessage) {
 
   int[] oku_uzaklik(){
   
-    // SIRA:  ON, SAG, SOL
-    
     int[] degerler = new int[3];
     
-    degerler[0] = arduino_uno.analogRead(1) + arduino_uno.analogRead(2);
-    degerler[1] = arduino_uno.analogRead(3) + arduino_uno.analogRead(4);
-    degerler[2] = arduino_uno.analogRead(5) + arduino_uno.analogRead(6);
+    degerler[0] = 12;
+    degerler[1] = 12212;
+    degerler[2] = 2121;
     
     return degerler;
-    
-  }
-  
-  void oku_hareket(){
-    
-    
     
   }
 
@@ -840,17 +811,6 @@ void setup() {
   arduino_uno.pinMode(a_led_y_2, Arduino.OUTPUT);
  */ 
  
- 
- // ARDUINO MEGA PIN MODE
- 
- arduino_mega.pinMode(a_uzaklik_sicaklik, Arduino.OUTPUT);
- arduino_mega.pinMode(a_ekran, Arduino.OUTPUT);
- 
- arduino_mega.pinMode(a_hareket_1, Arduino.INPUT);
- arduino_mega.pinMode(a_hareket_2, Arduino.INPUT);
- 
- arduino_mega.pinMode(a_buzzer, Arduino.OUTPUT);
- 
 }
 
 
@@ -879,9 +839,7 @@ void draw() {
   
   // GIRIS
   
-  //gonder_giris();
-  
-  giris = 1;
+  gonder_giris();
   
   if(giris == 0){ // Giriş yapılmadıysa
     
@@ -897,9 +855,6 @@ void draw() {
   }else{
     
     motor_kontrol();
-    buzzer_kontrol();
-    
-    gonder_uzaklik("23,2","3,11","6,6");
     
   }
   
