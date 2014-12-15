@@ -5,11 +5,11 @@
     2- Arduino Mega Pin Tanımlama 
     3- Open Sound Control Tanımlama
     4- Processing Tanımlama
+    5- Genel Tanımlama
     
   B- OPEN SOUND CONTROL
     1- Gelen Veri
     2- Giden Veri
-    3- Sıfırlamalar
   
   C- ARDUINO
     1- Arduino'ya Manual Veri Gönderme
@@ -25,11 +25,17 @@
 */
 
 
-String IP = "192.168.1.20";
+String IP = "192.168.1.21";
+int port = 7000;
 
-String s_arduino_uno = "/dev/ttyACM0";
-String s_arduino_mega = "/dev/ttyUSB0";
+//String s_arduino_uno = "/dev/ttyACM0";
+//String s_arduino_mega = "/dev/ttyUSB0";
 
+String s_arduino_uno = "/dev/tty.usbmodem1421";
+String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
+
+boolean arduino_uno_bagli = false;
+boolean arduino_mega_bagli = true;
 
 
 import oscP5.*;
@@ -80,16 +86,17 @@ Arduino arduino_mega;
   // PWM
   int a_uzaklik_sicaklik = 2;
   int a_ekran = 3;
+  int a_servo_1 = 4;
   
   // DIGITAL
-  int a_kizilotesi_1 = 23;
+  int a_ses = 23;
   int a_hareket_1 = 22;
   int a_hareket_2 = 31;
   int a_hoparlor = 30;
   int a_buzzer = 24;
   
   // ANALOG
-  int a_ses = 0;
+  
   
   int a_uzaklik_on_1 = 1;
   int a_uzaklik_on_2 = 2;
@@ -193,7 +200,13 @@ Arduino arduino_mega;
 
 
 
-
+// ### GENEL TANIMLAMALAR ### //
+  
+  boolean hareket_oldu_sag = false;
+  int hareket_sayisi_sag = 0;
+  
+  boolean hareket_oldu_sol = false;
+  int hareket_sayisi_sol = 0;
 
 
 // ## GELEN OSC ## //
@@ -484,23 +497,7 @@ void oscEvent(OscMessage theOscMessage) {
   
   // HAREKET
   
-  int a = 0;
-  int sayi;
-  int hareket;
-  void gonder_hareket(boolean sayi2, boolean hareket2){
-    
-    if(hareket_sifirla == 1){
-      sayi = 0;
-      hareket = 0; 
-    }
-    
-    if(sayi2 == true)
-      sayi++;
-      
-    if(hareket2 == true)
-      hareket = 1;
-    else
-      hareket = 0;
+  void gonder_hareket(int sayi, boolean hareket){
     
     OscMessage msg_led = new OscMessage("/Hareket/hareket_led");
     OscMessage msg_olcum = new OscMessage("/Hareket/sayi_olcum");
@@ -690,7 +687,7 @@ void oscEvent(OscMessage theOscMessage) {
   
   // MOTOR
   
-  void motor_kontrol(){
+  void uno_motor_kontrol_manual(){
     
     println("MOTOR:: SOL: "+int(motor_sol)+" SAG: "+int(motor_sag)+"    YON:: SOL: "+int(motor_sol_ters)+" SAG: "+int(motor_sag_ters)+"    ETKIN:: "+int(motor_etkin_sol_on)+","+int(motor_etkin_sol_arka)+","+int(motor_etkin_sag_on)+","+int(motor_etkin_sag_arka)+"     BUZZER:: "+int(buzzer));
     
@@ -744,64 +741,96 @@ void oscEvent(OscMessage theOscMessage) {
       arduino_uno.digitalWrite(a_led_k_2, Arduino.LOW);
       arduino_uno.digitalWrite(a_led_y_1, Arduino.LOW);
       arduino_uno.digitalWrite(a_led_y_2, Arduino.LOW);
-    
-  }else{
-    
-      if(int(motor_sag) == 0 && int(motor_sol) == 0){
-        arduino_uno.digitalWrite(a_led_k_1, Arduino.HIGH);
-        arduino_uno.digitalWrite(a_led_k_2, Arduino.HIGH);
-        arduino_uno.digitalWrite(a_led_y_1, Arduino.LOW);
-        arduino_uno.digitalWrite(a_led_y_2, Arduino.LOW);
-      }else{
-        arduino_uno.digitalWrite(a_led_k_1, Arduino.LOW);
-        arduino_uno.digitalWrite(a_led_k_2, Arduino.LOW);
-        arduino_uno.digitalWrite(a_led_y_1, Arduino.HIGH);
-        arduino_uno.digitalWrite(a_led_y_2, Arduino.HIGH);
-      }
   
-  }  
+    }else{
+      
+        if(int(motor_sag) == 0 && int(motor_sol) == 0){
+          arduino_uno.digitalWrite(a_led_k_1, Arduino.HIGH);
+          arduino_uno.digitalWrite(a_led_k_2, Arduino.HIGH);
+          arduino_uno.digitalWrite(a_led_y_1, Arduino.LOW);
+          arduino_uno.digitalWrite(a_led_y_2, Arduino.LOW);
+        }else{
+          arduino_uno.digitalWrite(a_led_k_1, Arduino.LOW);
+          arduino_uno.digitalWrite(a_led_k_2, Arduino.LOW);
+          arduino_uno.digitalWrite(a_led_y_1, Arduino.HIGH);
+          arduino_uno.digitalWrite(a_led_y_2, Arduino.HIGH);
+        }
     
-  }
-
-
-
-
-  void buzzer_kontrol(){
-    
-    println("BUZZER: "+int(buzzer));
-    
-    if(int(buzzer) == 1)
-      arduino_mega.digitalWrite(a_buzzer, Arduino.HIGH);
-    else{
-      arduino_mega.digitalWrite(a_buzzer, Arduino.LOW);
     }
-    
-    
   }
+
+
 
 
 
 
 // ## ARDUINO'DAN GELEN ## //
 
+
   int[] oku_uzaklik(){
-  
-    // SIRA:  ON, SAG, SOL
-    
-    int[] degerler = new int[3];
-    
+    int[] degerler = new int[3]; // SIRA:  ON, SAG, SOL
     degerler[0] = arduino_uno.analogRead(1) + arduino_uno.analogRead(2);
     degerler[1] = arduino_uno.analogRead(3) + arduino_uno.analogRead(4);
     degerler[2] = arduino_uno.analogRead(5) + arduino_uno.analogRead(6);
-    
     return degerler;
+  }
+  
+  
+  void mega_oku_hareket_sag(boolean osc){
+    int hareket_durum = arduino_mega.digitalRead(a_hareket_1);
+    
+    if(hareket_durum == Arduino.HIGH){
+      
+      if(osc == true)
+        gonder_hareket(hareket_sayisi_sag, true);
+      
+      println("Hareket Var (SAG)");
+      hareket_oldu_sag = true;
+      // Harekete geçir
+      
+    }else{
+      
+      if(osc == true)
+        gonder_hareket(hareket_sayisi_sag, false);
+      
+      println("Toplam Hareket (SAG): "+hareket_sayisi_sag);
+      
+      if(hareket_oldu_sag == true){
+        hareket_sayisi_sag++;
+        hareket_oldu_sag = false;
+      }
+      
+    }
+    
     
   }
   
-  void oku_hareket(){
+  void mega_oku_hareket_sol(){
+    int hareket_durum = arduino_mega.digitalRead(a_hareket_2);
     
+    if(hareket_durum == Arduino.HIGH){
+      println("Hareket Var (SOL)");
+      hareket_oldu_sol = true;
+      // Harekete geçir
+      
+    }else{
+      println("Toplam Hareket (SOL): "+hareket_sayisi_sol);
+      
+      if(hareket_oldu_sol == true){
+        hareket_sayisi_sol++;
+        hareket_oldu_sol = false;
+      }
+      
+    }
+  }
+  
+  
+  void mega_oku_ses(){
+    int ses_durum = arduino_mega.digitalRead(a_ses);
     
-    
+    if(ses_durum == Arduino.LOW){
+      println("Ses Algilandi");
+    }
   }
 
 
@@ -815,49 +844,58 @@ void oscEvent(OscMessage theOscMessage) {
 void setup() {
   
   println(Arduino.list());
-  arduino_uno = new Arduino(this, s_arduino_uno, 57600);
-  arduino_mega = new Arduino(this, s_arduino_mega, 57600);
+  
+  if(arduino_uno_bagli == true)
+    arduino_uno = new Arduino(this, s_arduino_uno, 57600);
+  
+  if(arduino_mega_bagli)
+    arduino_mega = new Arduino(this, s_arduino_mega, 57600);
+  
   
   remoteLocation = new NetAddress(IP, 9000);
-  oscP5 = new OscP5(this,7000);
+  oscP5 = new OscP5(this,port);
+  
+  
   
   // ARDUINO UNO PIN MODE
-  
-  
-  arduino_uno.pinMode(a_motor_sol_on, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_motor_sol_arka, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_motor_sag_on, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_motor_sag_arka, Arduino.OUTPUT);
-  
-  arduino_uno.pinMode(a_motor_sol_on_d, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_motor_sol_arka_d, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_motor_sag_on_d, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_motor_sag_arka_d, Arduino.OUTPUT);
+  if(arduino_uno_bagli == true){
+    arduino_uno.pinMode(a_motor_sol_on, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_motor_sol_arka, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_motor_sag_on, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_motor_sag_arka, Arduino.OUTPUT);
     
-  arduino_uno.pinMode(a_led_k_1, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_led_k_2, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_led_y_1, Arduino.OUTPUT);
-  arduino_uno.pinMode(a_led_y_2, Arduino.OUTPUT);
- 
+    arduino_uno.pinMode(a_motor_sol_on_d, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_motor_sol_arka_d, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_motor_sag_on_d, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_motor_sag_arka_d, Arduino.OUTPUT);
+      
+    arduino_uno.pinMode(a_led_k_1, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_led_k_2, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_led_y_1, Arduino.OUTPUT);
+    arduino_uno.pinMode(a_led_y_2, Arduino.OUTPUT);
+  }
  
  
   // ARDUINO MEGA PIN MODE
- 
-  arduino_mega.pinMode(a_uzaklik_sicaklik, Arduino.OUTPUT);
-  arduino_mega.pinMode(a_ekran, Arduino.OUTPUT);
- 
-  arduino_mega.pinMode(a_hareket_1, Arduino.INPUT);
-  arduino_mega.pinMode(a_hareket_2, Arduino.INPUT);
- 
-  arduino_mega.pinMode(a_buzzer, Arduino.OUTPUT);
- 
-  gonder_motor_sifirla(true);
-  gonder_uzaklik_sifirla();
-  gonder_isik_sifirla();
-  gonder_hareket_sifirla();
-  gonder_yakinlik_sifirla();
-  gonder_voltaj_sifirla();
- 
+  if(arduino_mega_bagli){
+    arduino_mega.pinMode(a_uzaklik_sicaklik, Arduino.OUTPUT);
+    arduino_mega.pinMode(a_ekran, Arduino.OUTPUT);
+   
+    arduino_mega.pinMode(a_ses, Arduino.INPUT);
+    arduino_mega.pinMode(a_hareket_1, Arduino.INPUT);
+    arduino_mega.pinMode(a_hareket_2, Arduino.INPUT);
+   
+    arduino_mega.pinMode(a_buzzer, Arduino.OUTPUT);
+    
+    arduino_mega.pinMode(a_servo_1, Arduino.SERVO);
+   
+    gonder_motor_sifirla(true);
+    gonder_uzaklik_sifirla();
+    gonder_isik_sifirla();
+    gonder_hareket_sifirla();
+    gonder_yakinlik_sifirla();
+    gonder_voltaj_sifirla();
+  }
  
 }
 
@@ -891,10 +929,18 @@ void draw() {
     
   }else{
     
-    motor_kontrol();
-    //buzzer_kontrol();
+    if(arduino_uno_bagli == true)
+      uno_motor_kontrol_manual();
+      
+    mega_oku_hareket_sag(true);
+    mega_oku_hareket_sol();
+    mega_oku_ses();
     
     gonder_uzaklik("23,2","3,11","6,6");
+    
+    println(int(servo_1));
+    arduino_mega.servoWrite(a_servo_1, int(servo_1));
+    
     
   }
   
