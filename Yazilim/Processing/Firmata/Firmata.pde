@@ -26,15 +26,15 @@
 
 
 String IP = "192.168.1.21";
-int port = 7000;
+int port = 6000;
 
-//String s_arduino_uno = "/dev/ttyACM0";
-//String s_arduino_mega = "/dev/ttyUSB0";
+String s_arduino_uno = "/dev/ttyACM0";
+String s_arduino_mega = "/dev/ttyUSB0";
 
-String s_arduino_uno = "/dev/tty.usbmodem1421";
-String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
+//String s_arduino_uno = "/dev/tty.usbmodem1411";
+//String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
 
-boolean arduino_uno_bagli = false;
+boolean arduino_uno_bagli = true;
 boolean arduino_mega_bagli = true;
 
 
@@ -716,19 +716,19 @@ void oscEvent(OscMessage theOscMessage) {
   
     
     if(int(motor_sol_ters) == 1){
-      arduino_uno.digitalWrite(a_motor_sol_on_d, Arduino.LOW);
+      arduino_uno.digitalWrite(a_motor_sol_on_d, Arduino.HIGH);
       arduino_uno.digitalWrite(a_motor_sol_arka_d, Arduino.LOW);
     }else{
-      arduino_uno.digitalWrite(a_motor_sol_on_d, Arduino.HIGH);
+      arduino_uno.digitalWrite(a_motor_sol_on_d, Arduino.LOW);
       arduino_uno.digitalWrite(a_motor_sol_arka_d, Arduino.HIGH);
     }
     
     
     if(int(motor_sag_ters) == 1){
-      arduino_uno.digitalWrite(a_motor_sag_on_d, Arduino.LOW);
+      arduino_uno.digitalWrite(a_motor_sag_on_d, Arduino.HIGH);
       arduino_uno.digitalWrite(a_motor_sag_arka_d, Arduino.LOW);
     }else{
-      arduino_uno.digitalWrite(a_motor_sag_on_d, Arduino.HIGH);
+      arduino_uno.digitalWrite(a_motor_sag_on_d, Arduino.LOW);
       arduino_uno.digitalWrite(a_motor_sag_arka_d, Arduino.HIGH);
     }
   
@@ -932,9 +932,9 @@ void draw() {
     if(arduino_uno_bagli == true)
       uno_motor_kontrol_manual();
       
-    mega_oku_hareket_sag(true);
-    mega_oku_hareket_sol();
-    mega_oku_ses();
+    //mega_oku_hareket_sag(true);
+    //mega_oku_hareket_sol();
+    //mega_oku_ses();
     
     gonder_uzaklik("23,2","3,11","6,6");
     
