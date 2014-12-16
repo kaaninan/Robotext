@@ -845,7 +845,7 @@ void setup() {
   
   println(Arduino.list());
   
-  if(arduino_uno_bagli == true)
+  if(arduino_uno_bagli)
     arduino_uno = new Arduino(this, s_arduino_uno, 57600);
   
   if(arduino_mega_bagli)
@@ -929,7 +929,7 @@ void draw() {
     
   }else{
     
-    if(arduino_uno_bagli == true)
+    if(arduino_uno_bagli)
       uno_motor_kontrol_manual();
       
     //mega_oku_hareket_sag(true);
@@ -939,7 +939,9 @@ void draw() {
     gonder_uzaklik("23,2","3,11","6,6");
     
     println(int(servo_1));
-    arduino_mega.servoWrite(a_servo_1, int(servo_1));
+    
+    if(arduino_mega_bagli)
+      arduino_mega.servoWrite(a_servo_1, int(servo_1));
     
     
   }
