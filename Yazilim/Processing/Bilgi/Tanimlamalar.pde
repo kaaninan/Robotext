@@ -166,6 +166,10 @@ Arduino arduino_mega;
 
 
 
+// ### MAIL ### //
+
+
+
 // ### GENEL TANIMLAMALAR ### //
 
 int resim_no = 0;

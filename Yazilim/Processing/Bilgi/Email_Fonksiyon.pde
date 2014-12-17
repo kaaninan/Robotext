@@ -116,7 +116,7 @@ void sendMail() {
 
       Message message = new MimeMessage(session);
       message.setFrom(new InternetAddress("robotext.afl@gmail.com"));
-      message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("kaaninan@outlook.com"));
+      message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("kaaninan99@gmail.com"));
       message.setSubject("Robotext Güvenlik Sistemi - Uyarı");
       
       
@@ -124,9 +124,7 @@ void sendMail() {
       
       // EK 1
       messageBodyPart = new MimeBodyPart();
-      String htmlText = "<h1>Robotext Güvenlik Sistemi</h1><br><h2><b>Hareket Algılandı<b></h2><br>";
       messageBodyPart.setContent( htmlText, "text/html; charset=utf-8" );
-      //messageBodyPart.setContent(htmlText, "text/html");
       multipart.addBodyPart(messageBodyPart);
 
       // EK 2
@@ -139,11 +137,17 @@ void sendMail() {
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
-        messageBodyPart.setHeader("Content-ID","<image>");
+        messageBodyPart.setHeader("Content-ID","test"+i);
         multipart.addBodyPart(messageBodyPart);
-      }
+      };
       
-      
+      messageBodyPart = new MimeBodyPart();
+      String filename = "/Users/Kaaninan/Desktop/Logo.png";
+      DataSource source = new FileDataSource(filename);
+      messageBodyPart.setDataHandler(new DataHandler(source));
+      messageBodyPart.setFileName(filename);
+      messageBodyPart.setHeader("Content-ID","logo");
+      multipart.addBodyPart(messageBodyPart);
 
       // Herşeyi Koy
       message.setContent(multipart);
