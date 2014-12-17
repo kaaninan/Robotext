@@ -1,4 +1,3 @@
-
 /* Program Düzenlemesi
 
   A- TANIMLAMALAR 
@@ -22,5 +21,30 @@
   
   E- DRAW
     1- Güvenlik Kontrolü
+
+*/
+
+
+/* Hareket Algoritması
+    
+    A1- Hareket ve ses sensörlerini kontrol et
+    A2- Hareket veya ses algılanırsa
+      - Hareket/Zaman ve Ses/Zaman grafiğini başlat
+      - Işığı aç
+      - Resim çek
+      - Resimdeki yüzleri tanı
+      - Tanınan yüzleri mevcut listeyle karşılaştır
+        -> Eğer tanınan yüz ise durdur
+        -> Yüz tanınmadıysa veya yoksa devam et
+      
+    A3- Alarm çal
+    A4- Resim çekildikten sonra grafiği durdur
+    A5- Hazır taslağa verileri ekle ve mail at
+    
+    A6- Sitemi 5sn boyunca çalıştır.
+    A7- Süre bitince
+      - Kamera ile 3 resim çek
+      
+    A8- Tüm grafiği ve 4 resmi mail at
 
 */

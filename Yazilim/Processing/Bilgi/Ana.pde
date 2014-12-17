@@ -65,15 +65,18 @@ void setup() {
     gonder_hareket_sifirla();
     gonder_yakinlik_sifirla();
     gonder_voltaj_sifirla();
+    
   }
+  
+  size(1280, 480);
+  video = new Capture(this, 640/2, 480/2);
+  opencv = new OpenCV(this, 640/2, 480/2);
+  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
 
-
-
-  size(200, 200);
-
-  //checkMail();
-
-  sendMail();
+  video.start();
+  
+  cam = new Capture(this, 320, 240, 30);
+  cam.start();
 }
 
 
@@ -104,19 +107,50 @@ void draw() {
     gonder_voltaj_sifirla();
   } else {
 
-    if (arduino_uno_bagli)
+    if (arduino_uno_bagli){
       uno_motor_kontrol_manual();
+    }
 
-    //mega_oku_hareket_sag(true);
-    //mega_oku_hareket_sol();
-    //mega_oku_ses();
-
-    gonder_uzaklik("23,2", "3,11", "6,6");
-
-    //println(int(servo_1));
-
-    if (arduino_mega_bagli)
+    if (arduino_mega_bagli){
       arduino_mega.servoWrite(a_servo_1, int(servo_1));
+      mega_oku_hareket_sag(true);
+      mega_oku_hareket_sol();
+      mega_oku_ses();
+    }
   }
+  
+  
+  scale(2);
+  opencv.loadImage(video);
+
+  image(video, 0, 0 );
+
+  noFill();
+  stroke(0, 255, 0);
+  strokeWeight(3);
+  Rectangle[] faces = opencv.detect();
+  //println(faces.length);
+
+  for (int i = 0; i < faces.length; i++) {
+    //println(faces[i].x + "," + faces[i].y);
+    rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
+  }
+  
+  cam.read();
+  image(cam, 320, 0);
+  
+  
 }
 
+void keyPressed() {
+   resim_cek();
+}
+
+void mousePressed() {
+  thread("sendMail");
+}
+
+
+void captureEvent(Capture c) {
+  c.read();
+}
