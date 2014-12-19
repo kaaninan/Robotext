@@ -72,3 +72,15 @@ void uno_motor_kontrol_manual() {
     }
   }
 }
+
+
+
+
+
+void mega_servo_dondur(String yon){
+
+  if(yon == "sol"){
+    
+  }
+  
+}

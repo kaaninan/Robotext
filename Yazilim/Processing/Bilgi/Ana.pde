@@ -4,7 +4,7 @@ int port = 6000;
 String s_arduino_uno = "/dev/ttyACM0";
 String s_arduino_mega = "/dev/ttyUSB0";
 
-boolean arduino_uno_bagli = true;
+boolean arduino_uno_bagli = false;
 boolean arduino_mega_bagli = false;
 
 //String s_arduino_uno = "/dev/tty.usbmodem1411";
@@ -112,10 +112,9 @@ void draw() {
     }
 
     if (arduino_mega_bagli){
-      arduino_mega.servoWrite(a_servo_1, int(servo_1));
       mega_oku_hareket_sag(true);
       mega_oku_hareket_sol();
-      mega_oku_ses();
+      //mega_oku_ses();
     }
   }
   
@@ -138,6 +137,7 @@ void draw() {
   
   cam.read();
   image(cam, 320, 0);
+  
   
   
 }

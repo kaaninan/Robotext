@@ -1,5 +1,7 @@
 // ## ARDUINO'DAN GELEN ## //
 
+int basla = 0;
+int basla2 = 0;
 
 int[] oku_uzaklik() {
   int[] degerler = new int[3]; // SIRA:  ON, SAG, SOL
@@ -20,7 +22,13 @@ void mega_oku_hareket_sag(boolean osc) {
 
     println("Hareket Var (SAG)");
     hareket_oldu_sag = true;
-    // Harekete geçir
+    
+    if(basla == 0){
+      mega_servo_dondur("sag");
+      resim_cek();
+      basla = 1;
+    }
+    
   } else {
 
     if (osc == true)
@@ -41,7 +49,13 @@ void mega_oku_hareket_sol() {
   if (hareket_durum == Arduino.HIGH) {
     println("Hareket Var (SOL)");
     hareket_oldu_sol = true;
-    // Harekete geçir
+    
+    if(basla2 == 0){
+      mega_servo_dondur("sol");
+      resim_cek();
+      basla2 = 1;
+    }
+    
   } else {
     println("Toplam Hareket (SOL): "+hareket_sayisi_sol);
 

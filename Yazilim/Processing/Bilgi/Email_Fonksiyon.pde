@@ -113,6 +113,8 @@ void sendMail() {
     Session session = Session.getDefaultInstance(props, auth);
 
     try {
+      
+      println("Mail Düzenleniyor");
 
       Message message = new MimeMessage(session);
       message.setFrom(new InternetAddress("robotext.afl@gmail.com"));
@@ -133,11 +135,11 @@ void sendMail() {
       
       for(int i = resim_baslangic; i < toplam ; i++){
         messageBodyPart = new MimeBodyPart();
-        String filename = "/Users/Kaaninan/Desktop/test"+i+".png";
+        String filename = "/Users/Kaaninan/Desktop/guvenlik-"+i+".png";
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
-        messageBodyPart.setHeader("Content-ID","test"+i);
+        messageBodyPart.setHeader("Content-ID","resim-"+i);
         multipart.addBodyPart(messageBodyPart);
       };
       
