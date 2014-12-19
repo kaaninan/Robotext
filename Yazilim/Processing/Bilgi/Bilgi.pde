@@ -1,3 +1,5 @@
+import processing.video.*;
+
 /* Program Düzenlemesi
 
   A- TANIMLAMALAR 

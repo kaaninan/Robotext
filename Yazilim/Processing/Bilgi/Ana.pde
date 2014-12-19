@@ -4,7 +4,7 @@ int port = 6000;
 String s_arduino_uno = "/dev/ttyACM0";
 String s_arduino_mega = "/dev/ttyUSB0";
 
-boolean arduino_uno_bagli = false;
+boolean arduino_uno_bagli = true;
 boolean arduino_mega_bagli = false;
 
 //String s_arduino_uno = "/dev/tty.usbmodem1411";

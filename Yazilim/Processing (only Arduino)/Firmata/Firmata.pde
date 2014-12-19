@@ -35,7 +35,7 @@ String s_arduino_mega = "/dev/ttyUSB0";
 //String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
 
 boolean arduino_uno_bagli = true;
-boolean arduino_mega_bagli = true;
+boolean arduino_mega_bagli = false;
 
 
 import oscP5.*;
