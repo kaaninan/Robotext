@@ -142,14 +142,6 @@ void sendMail() {
         messageBodyPart.setHeader("Content-ID","resim-"+i);
         multipart.addBodyPart(messageBodyPart);
       };
-      
-      messageBodyPart = new MimeBodyPart();
-      String filename = "/Users/Kaaninan/Desktop/Logo.png";
-      DataSource source = new FileDataSource(filename);
-      messageBodyPart.setDataHandler(new DataHandler(source));
-      messageBodyPart.setFileName(filename);
-      messageBodyPart.setHeader("Content-ID","logo");
-      multipart.addBodyPart(messageBodyPart);
 
       // Herşeyi Koy
       message.setContent(multipart);

@@ -12,7 +12,7 @@ void test() throws InterruptedException, IOException {
     while(br.ready())
         println(br.readLine());
         
-    sendMail();
+    thread("sendMail");
 }
 
 

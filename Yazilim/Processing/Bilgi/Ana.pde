@@ -69,6 +69,8 @@ void setup() {
   }
   
   arduino_mega.servoWrite(a_servo_1, 90);
+  
+  sendMail();
 }
 
 
