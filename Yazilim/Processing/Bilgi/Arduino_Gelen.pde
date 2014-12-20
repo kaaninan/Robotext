@@ -27,7 +27,7 @@ void oku_hareket_sag() {
     if(basla == 0){
       servo_dondur("sag");
       basla = 1;
-      resim_cek("Sağ ");
+      resim_cek("Sağ");
     }
     
   } else {
