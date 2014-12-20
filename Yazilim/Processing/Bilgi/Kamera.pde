@@ -1,5 +1,4 @@
-void resim_cek(String yon) {
-  hareket_yon = yon;
+void resim_cek() {
   
   println("Resim Çekiliyor");
   try{

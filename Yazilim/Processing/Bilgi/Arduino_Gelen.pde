@@ -27,7 +27,8 @@ void oku_hareket_sag() {
     if(basla == 0){
       servo_dondur("sag");
       basla = 1;
-      resim_cek("Sağ");
+      resim_cek();
+      hareket_yon = "Sağ";
     }
     
   } else {
@@ -52,7 +53,8 @@ void oku_hareket_sol() {
     
     if(basla2 == 0){
       servo_dondur("sol");
-      resim_cek("Sol");
+      resim_cek();
+      hareket_yon = "Sol";
       basla2 = 1;
     }
     
