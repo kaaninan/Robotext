@@ -69,6 +69,12 @@ void setup() {
   }
   
   arduino_mega.servoWrite(a_servo_1, 90);
+  
+  try{
+    ses_merhaba();
+  }catch(Exception e){
+    println("SES ÇALMADA HATA OLUŞTU");
+  }
 }
 
 

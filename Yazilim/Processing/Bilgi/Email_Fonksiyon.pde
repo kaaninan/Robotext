@@ -149,7 +149,7 @@ void sendMail() {
       
       Transport.send(message);
 
-      System.out.println("Gonderildi");
+      System.out.println("Mail Gonderildi");
     } 
 
     finally 

@@ -5,7 +5,7 @@ void resim_cek() {
   }catch (Exception c){
     println("test hata");
   }
-  println("Bitti");
+  println("Resim Çekildi");
   
   thread("sendMail");
 }
@@ -17,11 +17,4 @@ void test() throws InterruptedException, IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
     while(br.ready())
         println(br.readLine());
-        
-    
 }
-
-
-
-
-
