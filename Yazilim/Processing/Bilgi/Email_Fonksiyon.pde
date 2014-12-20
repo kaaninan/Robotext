@@ -131,7 +131,7 @@ void sendMail() {
 
       // EK 2
       
-      int toplam = resim_no + 1;
+      int toplam = resim_no;
       
       for(int i = resim_baslangic; i < toplam ; i++){
         messageBodyPart = new MimeBodyPart();
