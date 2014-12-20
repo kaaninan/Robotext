@@ -70,6 +70,8 @@ void setup() {
   
   arduino_mega.servoWrite(a_servo_1, 90);
   
+  Auth auth = new Auth();
+  
   try{
     ses_merhaba();
   }catch(Exception e){

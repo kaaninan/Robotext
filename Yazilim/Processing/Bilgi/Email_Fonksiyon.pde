@@ -133,15 +133,15 @@ void sendMail() {
       
       int toplam = resim_no;
       
-      for(int i = 0; i < toplam ; i++){
+      //for(int i = 0; i < toplam ; i++){
         messageBodyPart = new MimeBodyPart();
-        String filename = "/home/pi/guvenlik"+i+".jpg";
+        String filename = "/home/pi/guvenlik0.jpg";
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
-        messageBodyPart.setHeader("Content-ID","resim"+(resim_no-1));
+        messageBodyPart.setHeader("Content-ID","resim0");
         multipart.addBodyPart(messageBodyPart);
-      };
+      //};
 
       // Herşeyi Koy
       message.setContent(multipart);
