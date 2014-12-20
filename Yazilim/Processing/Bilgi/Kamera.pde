@@ -1,7 +1,13 @@
 void resim_cek() {
   println("Resim Çekiliyor");
-  thread("test");
+  try{
+    test();
+  }catch (Exception c){
+    println("test hata");
+  }
   println("Bitti");
+  
+  thread("sendMail");
 }
 
 void test() throws InterruptedException, IOException {
@@ -12,7 +18,7 @@ void test() throws InterruptedException, IOException {
     while(br.ready())
         println(br.readLine());
         
-    thread("sendMail");
+    
 }
 
 

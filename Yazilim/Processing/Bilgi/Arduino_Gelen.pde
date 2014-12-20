@@ -47,7 +47,7 @@ void oku_hareket_sol() {
   int hareket_durum = arduino_mega.digitalRead(a_hareket_2);
 
   if (hareket_durum == Arduino.HIGH) {
-    println("Hareket Var (SOL)");
+    //println("Hareket Var (SOL)");
     hareket_oldu_sol = true;
     
     if(basla2 == 0){

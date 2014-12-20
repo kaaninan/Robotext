@@ -131,15 +131,16 @@ void sendMail() {
 
       // EK 2
       
-      int toplam = resim_no;
+      int toplam = resim_no + 1;
       
       for(int i = resim_baslangic; i < toplam ; i++){
         messageBodyPart = new MimeBodyPart();
-        String filename = "/home/pi/guvenlik-"+i+".jpg";
+        String filename = "/home/pi/guvenlik"+i+".jpg";
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
-        messageBodyPart.setHeader("Content-ID","resim-"+i);
+        //messageBodyPart.setHeader("Content-ID","resim-"+i);
+        messageBodyPart.setHeader("Content-ID","<image>");
         multipart.addBodyPart(messageBodyPart);
       };
 
