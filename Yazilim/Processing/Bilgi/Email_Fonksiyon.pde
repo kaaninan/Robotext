@@ -133,13 +133,13 @@ void sendMail() {
       
       int toplam = resim_no;
       
-      for(int i = resim_baslangic; i < toplam ; i++){
+      for(int i = 0; i < toplam ; i++){
         messageBodyPart = new MimeBodyPart();
         String filename = "/home/pi/guvenlik"+i+".jpg";
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
-        messageBodyPart.setHeader("Content-ID","resim"+resim_no);
+        messageBodyPart.setHeader("Content-ID","resim"+(resim_no-1));
         multipart.addBodyPart(messageBodyPart);
       };
 
