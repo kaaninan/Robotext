@@ -33,12 +33,12 @@ void oku_hareket_sag() {
   } else {
 
     gonder_hareket(hareket_sayisi_sag, false);
-    println("Toplam Hareket (SAG): "+hareket_sayisi_sag);
 
     if (hareket_oldu_sag == true) {
       hareket_sayisi_sag++;
       hareket_oldu_sag = false;
       basla = 0;
+      println("Toplam Hareket (SAG): "+hareket_sayisi_sag);
     }
   }
 }
@@ -57,9 +57,10 @@ void oku_hareket_sol() {
     }
     
   } else {
-    println("Toplam Hareket (SOL): "+hareket_sayisi_sol);
+    
 
     if (hareket_oldu_sol == true) {
+      println("Toplam Hareket (SOL): "+hareket_sayisi_sol);
       hareket_sayisi_sol++;
       hareket_oldu_sol = false;
       basla2 = 0;

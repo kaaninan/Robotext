@@ -1,14 +1,14 @@
 String IP = "192.168.1.23";
 int port = 7000;
 
-//String s_arduino_uno = "/dev/ttyACM0";
-//String s_arduino_mega = "/dev/ttyUSB0";
+String s_arduino_uno = "/dev/ttyACM0";
+String s_arduino_mega = "/dev/ttyUSB0";
 
-boolean arduino_uno_bagli = true;
+boolean arduino_uno_bagli = false;
 boolean arduino_mega_bagli = true;
 
-String s_arduino_uno = "/dev/tty.usbmodem1421";
-String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
+//String s_arduino_uno = "/dev/tty.usbmodem1421";
+//String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
 
 
 void setup() {
@@ -106,7 +106,7 @@ void draw() {
     if (arduino_mega_bagli){
       oku_hareket_sag();
       oku_hareket_sol();
-      oku_ses();
+      //oku_ses();
     }
   }
   

@@ -11,6 +11,8 @@ void test() throws InterruptedException, IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
     while(br.ready())
         println(br.readLine());
+        
+    sendMail();
 }
 
 
