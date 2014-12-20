@@ -14,7 +14,7 @@ void resim_cek() {
 
 void test() throws InterruptedException, IOException {
     Runtime run = Runtime.getRuntime();
-    Process proc = run.exec(new String[]{"/bin/sh", "-c", "fswebcam -r 1280x720  /home/pi/guvenlik0.jpg"});
+    Process proc = run.exec(new String[]{"/bin/sh", "-c", "fswebcam -r 800x480  /home/pi/guvenlik0.jpg"});
     proc.waitFor();
     BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
     while(br.ready())
