@@ -139,8 +139,7 @@ void sendMail() {
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
-        //messageBodyPart.setHeader("Content-ID","resim-"+i);
-        messageBodyPart.setHeader("Content-ID","<image>");
+        messageBodyPart.setHeader("Content-ID","resim"+resim_no);
         multipart.addBodyPart(messageBodyPart);
       };
 
