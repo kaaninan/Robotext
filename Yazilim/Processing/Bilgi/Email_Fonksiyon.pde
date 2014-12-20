@@ -147,6 +147,8 @@ void sendMail() {
       message.setContent(multipart);
       
       Transport.send(message);
+      
+      resim_baslangic = resim_no;
 
       System.out.println("Mail Gonderildi");
     } 

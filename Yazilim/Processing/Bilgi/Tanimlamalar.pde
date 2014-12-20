@@ -173,6 +173,8 @@ Arduino arduino_mega;
 
 // ### GENEL TANIMLAMALAR ### //
 
+String hareket_yonu = "";
+
 int resim_no = 0;
 int resim_baslangic = 0;
 

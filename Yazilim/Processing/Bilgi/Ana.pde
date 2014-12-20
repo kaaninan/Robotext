@@ -4,7 +4,7 @@ int port = 7000;
 String s_arduino_uno = "/dev/ttyACM0";
 String s_arduino_mega = "/dev/ttyUSB0";
 
-boolean arduino_uno_bagli = false;
+boolean arduino_uno_bagli = true;
 boolean arduino_mega_bagli = true;
 
 //String s_arduino_uno = "/dev/tty.usbmodem1421";
@@ -119,13 +119,4 @@ void draw() {
   //arduino_mega.servoWrite(a_servo_1, int(servo_1));
   
   
-}
-
-void mousePressed() {
-  thread("sendMail");
-}
-
-
-void captureEvent(Capture c) {
-  c.read();
 }

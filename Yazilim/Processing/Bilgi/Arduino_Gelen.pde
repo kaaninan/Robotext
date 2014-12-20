@@ -27,7 +27,7 @@ void oku_hareket_sag() {
     if(basla == 0){
       servo_dondur("sag");
       basla = 1;
-      resim_cek();
+      resim_cek("sag");
     }
     
   } else {
@@ -52,7 +52,7 @@ void oku_hareket_sol() {
     
     if(basla2 == 0){
       servo_dondur("sol");
-      resim_cek();
+      resim_cek("sol");
       basla2 = 1;
     }
     
