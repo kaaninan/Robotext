@@ -7,6 +7,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import gab.opencv.*;
 import java.awt.*;
+import java.io.*;
 
 OscP5 oscP5;
 NetAddress remoteLocation;

@@ -1,14 +1,14 @@
-String IP = "192.168.1.21";
-int port = 6000;
+String IP = "192.168.1.23";
+int port = 7000;
 
-String s_arduino_uno = "/dev/ttyACM0";
-String s_arduino_mega = "/dev/ttyUSB0";
+//String s_arduino_uno = "/dev/ttyACM0";
+//String s_arduino_mega = "/dev/ttyUSB0";
 
-boolean arduino_uno_bagli = false;
-boolean arduino_mega_bagli = false;
+boolean arduino_uno_bagli = true;
+boolean arduino_mega_bagli = true;
 
-//String s_arduino_uno = "/dev/tty.usbmodem1411";
-//String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
+String s_arduino_uno = "/dev/tty.usbmodem1421";
+String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
 
 
 void setup() {
@@ -68,15 +68,7 @@ void setup() {
     
   }
   
-  size(1280, 480);
-  video = new Capture(this, 640/2, 480/2);
-  opencv = new OpenCV(this, 640/2, 480/2);
-  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
-
-  video.start();
-  
-  cam = new Capture(this, 320, 240, 30);
-  cam.start();
+  arduino_mega.servoWrite(a_servo_1, 90);
 }
 
 
@@ -112,38 +104,15 @@ void draw() {
     }
 
     if (arduino_mega_bagli){
-      mega_oku_hareket_sag(true);
-      mega_oku_hareket_sol();
-      //mega_oku_ses();
+      oku_hareket_sag();
+      oku_hareket_sol();
+      oku_ses();
     }
   }
   
-  
-  scale(2);
-  opencv.loadImage(video);
-
-  image(video, 0, 0 );
-
-  noFill();
-  stroke(0, 255, 0);
-  strokeWeight(3);
-  Rectangle[] faces = opencv.detect();
-  //println(faces.length);
-
-  for (int i = 0; i < faces.length; i++) {
-    //println(faces[i].x + "," + faces[i].y);
-    rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
-  }
-  
-  cam.read();
-  image(cam, 320, 0);
+  //arduino_mega.servoWrite(a_servo_1, int(servo_1));
   
   
-  
-}
-
-void keyPressed() {
-   resim_cek();
 }
 
 void mousePressed() {

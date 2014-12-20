@@ -77,10 +77,14 @@ void uno_motor_kontrol_manual() {
 
 
 
-void mega_servo_dondur(String yon){
+void servo_dondur(String yon){
 
   if(yon == "sol"){
-    
+    arduino_mega.servoWrite(a_servo_1, 20);
+  }
+  
+  if(yon == "sag"){
+    arduino_mega.servoWrite(a_servo_1, 180);
   }
   
 }

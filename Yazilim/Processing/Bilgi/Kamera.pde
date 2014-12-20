@@ -1,17 +1,19 @@
-// Kamera
-void resim_cek(){
-  
-  println("Resim Cekiliyor");
-  cam.read();
-  image(cam, 320, 0); 
-  saveFrame("/Users/kaaninan/Desktop/guvenlik-"+resim_no+".png");
-  resim_no++;
-  
+void resim_cek() {
+  println("Resim Çekiliyor");
+  thread("test");
+  println("Bitti");
+}
+
+void test() throws InterruptedException, IOException {
+    Runtime run = Runtime.getRuntime();
+    Process proc = run.exec(new String[]{"/bin/sh", "-c", "fswebcam  /home/pi/guvenlik"+resim_no+".jpg"});
+    proc.waitFor();
+    BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+    while(br.ready())
+        println(br.readLine());
 }
 
 
-void resim_baslangic() {
-  
-  resim_baslangic = resim_no;
-  
-}
+
+
+

@@ -135,7 +135,7 @@ void sendMail() {
       
       for(int i = resim_baslangic; i < toplam ; i++){
         messageBodyPart = new MimeBodyPart();
-        String filename = "/Users/Kaaninan/Desktop/guvenlik-"+i+".png";
+        String filename = "/home/pi/guvenlik-"+i+".jpg";
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
@@ -157,8 +157,6 @@ void sendMail() {
       Transport.send(message);
 
       System.out.println("Gonderildi");
-      
-      resim_baslangic();
     } 
 
     finally 

@@ -35,8 +35,8 @@ const int arka_c_1 = 6;
 const int arka_c_2 = 7;
 
 const int latchPin = 8;
-const int clockPin = 10;
 const int dataPin = 9;
+const int clockPin = 10;
 
 const int buzzer = 11;
 const int uyari_led = 12;
@@ -126,7 +126,7 @@ void loop() {
     digitalWrite(on_c_2, HIGH);
     digitalWrite(on_c_1, LOW);
     
-  }else{
+  }else if(on_deger >= 30){
     digitalWrite(on_c_1, LOW);
     digitalWrite(on_c_2, LOW);
   }
@@ -139,7 +139,7 @@ void loop() {
     digitalWrite(arka_c_2, HIGH);
     digitalWrite(arka_c_1, LOW);
 
-  }else{
+  }else if(arka_deger >= 30){
     digitalWrite(arka_c_1, LOW);
     digitalWrite(arka_c_2, LOW);
   }
