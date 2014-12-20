@@ -2,6 +2,7 @@ void resim_cek() {
   
   println("Resim Çekiliyor");
   try{
+    delay(100);
     test();
   }catch (Exception c){
     println("test hata");
