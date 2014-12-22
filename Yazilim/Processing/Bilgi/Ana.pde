@@ -120,6 +120,7 @@ void draw() {
     if(hareket_etkin == 1){
       
       if(hareket_first == true){
+                                  // ###### SIFIRLAMA YAPILABİLİR ######## ///
         ses("hareket_basla");
         hareket_first = false;
       }
@@ -142,9 +143,4 @@ void draw() {
     hareket_olc();
   }
   
-}
-
-
-void keyPressed(){
-  hareket("sag");
 }

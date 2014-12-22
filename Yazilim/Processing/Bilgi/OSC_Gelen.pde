@@ -128,6 +128,7 @@ void oscEvent(OscMessage theOscMessage) {
             if(devam3 == 1){
               if(devam4 == 1){
                 println("Giriş Başarılı");
+                ses("giris_yapildi");
                 giris = 1;
               }
             }
