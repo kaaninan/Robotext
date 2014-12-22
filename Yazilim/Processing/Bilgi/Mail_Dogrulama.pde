@@ -11,7 +11,7 @@ public class Auth extends Authenticator {
     String username, password;
     username = "robotext.afl@gmail.com";
     password = "raspberry_12";
-    System.out.println("Dogrulaniyor. . ");
+    System.out.println("Mail Adresi Dogrulaniyor. . ");
     return new PasswordAuthentication(username, password);
   }
 }

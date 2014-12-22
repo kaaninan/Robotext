@@ -1,13 +1,29 @@
 import oscP5.*;
 import netP5.*;
+
 import processing.serial.*;
 import processing.video.*;
+
 import cc.arduino.*;
-import javax.mail.*;
-import javax.mail.internet.*;
+
 import gab.opencv.*;
+
 import java.awt.*;
 import java.io.*;
+import java.util.Properties;
+import java.util.*;
+
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.mail.Flags.Flag;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.activation.*;
 
 OscP5 oscP5;
 NetAddress remoteLocation;
@@ -173,10 +189,9 @@ Arduino arduino_mega;
 
 // ### GENEL TANIMLAMALAR ### //
 
-String hareket_yon;
+int time;
 
-int resim_no = 0;
-int resim_baslangic = 0;
+boolean hareket_first = false;
 
 boolean hareket_oldu_sag = false;
 int hareket_sayisi_sag = 0;

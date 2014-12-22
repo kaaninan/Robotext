@@ -5,7 +5,13 @@ String s_arduino_uno = "/dev/ttyACM0";
 String s_arduino_mega = "/dev/ttyUSB0";
 
 boolean arduino_uno_bagli = false;
-boolean arduino_mega_bagli = true;
+boolean arduino_mega_bagli = false;
+
+boolean osc_gonder = false;
+boolean giris_etkin = false;
+
+String cozunurluk = "1280x720";
+int wait = 6000;
 
 //String s_arduino_uno = "/dev/tty.usbmodem1421";
 //String s_arduino_mega = "/dev/tty.usbserial-A603JL3X";
@@ -68,13 +74,14 @@ void setup() {
     
   }
   
-  arduino_mega.servoWrite(a_servo_1, 90);
+  if(arduino_mega_bagli)
+    arduino_mega.servoWrite(a_servo_1, 90);
   
-  try{
-    ses_merhaba();
-  }catch(Exception e){
-    println("SES ÇALMADA HATA OLUŞTU");
-  }
+  ses("merhaba");
+  
+  sendMailBasla();
+  
+  time = millis();
 }
 
 
@@ -83,40 +90,61 @@ void setup() {
 
 
 
-
-String val;
-int b = 1; // Hareket için
-
 void draw() {
 
   // GIRIS
-
-  //gonder_giris();
-
-  giris = 1;
+  
+  if(giris_etkin)
+    gonder_giris();
+    
+  else
+    giris = 1;
 
   if (giris == 0) { // Giriş yapılmadıysa
 
-    gonder_motor_sifirla(true);
-    gonder_uzaklik_sifirla();
-    gonder_isik_sifirla();
-    gonder_hareket_sifirla();
-    gonder_yakinlik_sifirla();
-    gonder_voltaj_sifirla();
+    if(osc_gonder){
+      gonder_motor_sifirla(true);
+      gonder_uzaklik_sifirla();
+      gonder_isik_sifirla();
+      gonder_hareket_sifirla();
+      gonder_yakinlik_sifirla();
+      gonder_voltaj_sifirla();
+    }
+      
   } else {
 
     if (arduino_uno_bagli){
       uno_motor_kontrol_manual();
     }
 
-    if (arduino_mega_bagli){
-      oku_hareket_sag();
-      oku_hareket_sol();
-      //oku_ses();
+    if(hareket_etkin == 1){
+      
+      if(hareket_first == true){
+        ses("hareket_basla");
+        hareket_first = false;
+      }
+      
+      if (arduino_mega_bagli){
+        oku_hareket_sag();
+        oku_hareket_sol();
+        oku_ses();
+      }
+    }else{
+      hareket_first = true;
     }
+      
   }
   
   //arduino_mega.servoWrite(a_servo_1, int(servo_1));
   
+  if(millis() - time >= wait){
+    time = millis();
+    hareket_olc();
+  }
   
+}
+
+
+void keyPressed(){
+  hareket("sag");
 }

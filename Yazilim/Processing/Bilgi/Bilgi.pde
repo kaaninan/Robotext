@@ -1,4 +1,3 @@
-
 /* Program Düzenlemesi
 
   A- TANIMLAMALAR 

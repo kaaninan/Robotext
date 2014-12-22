@@ -1,20 +1,22 @@
+int resim_no = 0;
+int resim_baslangic = 0;
+
 void resim_cek() {
   
   println("Resim Çekiliyor");
-  try{
-    delay(100);
-    test();
-  }catch (Exception c){
-    println("test hata");
-  }
-  println("Resim Çekildi");
   
-  thread("sendMail");
+  try{
+    resim_bash();
+  }catch (Exception c){
+    println("Resim Çekilemedi");
+  }
+  
+  println("Resim Çekildi");
 }
 
-void test() throws InterruptedException, IOException {
+void resim_bash() throws InterruptedException, IOException {
     Runtime run = Runtime.getRuntime();
-    Process proc = run.exec(new String[]{"/bin/sh", "-c", "fswebcam -r 800x480  /home/pi/guvenlik0.jpg"});
+    Process proc = run.exec(new String[]{"/bin/sh", "-c", "fswebcam -r "+cozunurluk+"  /home/pi/guvenlik-"+resim_no+".jpg"});
     proc.waitFor();
     BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
     while(br.ready())
