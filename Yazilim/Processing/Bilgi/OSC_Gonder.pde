@@ -1,6 +1,5 @@
 // ### GIDEN OSC ### //
 
-
 // MOTOR
 
 void gonder_motor_sifirla(boolean ters) {
@@ -39,39 +38,52 @@ void gonder_motor_sifirla(boolean ters) {
   }
 }
 
+// DURUM
+
+void gonder_durum(String durum) {
+
+  OscMessage msg_durum = new OscMessage(s_durum);
+  msg_durum.add(durum);
+  oscP5.send(msg_durum, remoteLocation);
+}
+
 
 // UZAKLIK
 
-void gonder_uzaklik(String sol, String on, String sag) {
+void gonder_uzaklik(int sol_1, int sol_2, int sag_1, int sag_2) {
 
-  OscMessage msg_on = new OscMessage("/Motor/uzaklik_on");
-  OscMessage msg_sag = new OscMessage(s_uzaklik_sag);
-  OscMessage msg_sol = new OscMessage(s_uzaklik_sol);
+  OscMessage msg_sag_1 = new OscMessage(s_uzaklik_sag_1);
+  OscMessage msg_sag_2 = new OscMessage(s_uzaklik_sag_2);
+  OscMessage msg_sol_1 = new OscMessage(s_uzaklik_sol_1);
+  OscMessage msg_sol_2 = new OscMessage(s_uzaklik_sol_2);
 
-  msg_on.add(on +" cm");
-  msg_sag.add(sag +" cm");
-  msg_sol.add(sol +" cm");
+  msg_sag_1.add(sag_1);
+  msg_sag_2.add(sag_2);
+  msg_sol_1.add(sol_1);
+  msg_sol_2.add(sol_2);
 
-
-  oscP5.send(msg_on, remoteLocation);
-  oscP5.send(msg_sag, remoteLocation);
-  oscP5.send(msg_sol, remoteLocation);
+  oscP5.send(msg_sag_1, remoteLocation);
+  oscP5.send(msg_sag_2, remoteLocation);
+  oscP5.send(msg_sol_1, remoteLocation);
+  oscP5.send(msg_sol_2, remoteLocation);
 }
 
 void gonder_uzaklik_sifirla() { 
 
-  OscMessage msg_on = new OscMessage(s_uzaklik_on);
-  OscMessage msg_sag = new OscMessage(s_uzaklik_sag);
-  OscMessage msg_sol = new OscMessage(s_uzaklik_sol);
+  OscMessage msg_sag_1 = new OscMessage(s_uzaklik_sag_1);
+  OscMessage msg_sag_2 = new OscMessage(s_uzaklik_sag_2);
+  OscMessage msg_sol_1 = new OscMessage(s_uzaklik_sol_1);
+  OscMessage msg_sol_2 = new OscMessage(s_uzaklik_sol_2);
 
-  msg_on.add("0");
-  msg_sag.add("0");
-  msg_sol.add("0");
+  msg_sag_1.add(0);
+  msg_sag_2.add(0);
+  msg_sol_1.add(0);
+  msg_sol_2.add(0);
 
-
-  oscP5.send(msg_on, remoteLocation);
-  oscP5.send(msg_sag, remoteLocation);
-  oscP5.send(msg_sol, remoteLocation);
+  oscP5.send(msg_sag_1, remoteLocation);
+  oscP5.send(msg_sag_2, remoteLocation);
+  oscP5.send(msg_sol_1, remoteLocation);
+  oscP5.send(msg_sol_2, remoteLocation);
 }
 
 

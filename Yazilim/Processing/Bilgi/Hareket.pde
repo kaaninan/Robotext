@@ -16,19 +16,19 @@ void hareket(String yon){
     
     running = true;
     
+    ses("hareket");
+    
     if(yon == "sag"){
       servo_dondur("sag");
     }else{
       servo_dondur("sol");
     }
     
-    delay(200); // Servonun dönme süresi
-    
     resim_cek();
     resim_no++;
-    ses("hareket");
     
     if(first == true){
+      println("Birinci Mail Gönderiliyor..");
       thread("sendMailBirinci");
     }
     
@@ -37,6 +37,7 @@ void hareket(String yon){
   }else{
     
     // Üst üste hareket algılandığında
+    println("test; cakisma");
     
   }
 }
@@ -50,26 +51,25 @@ int ai;
 
 void hareket_olc(){
   
-  if(olcmeye_basla){
-    if(sol_nerde < 10){
-      if(hareket_oldu_sag)
-        ia = 1;
-      else
-        ia = 0;
-        
-      if(hareket_oldu_sol)
-        ai = 1;
-      else
-        ai = 0;
+  if(sol_nerde < 10){
+    if(hareket_oldu_sag)
+      ia = 1;
+    else
+      ia = 0;
       
-      hareket_sol_dizi[sol_nerde] = ai;
-      hareket_sol_dizi[sag_nerde] = ia;
-      
-      sol_nerde++;
-      sag_nerde++;
+    if(hareket_oldu_sol)
+      ai = 1;
+    else
+      ai = 0;
     
-    }else{
-      thread("sendMailIkinci");
-    }
+    hareket_sol_dizi[sol_nerde] = ai;
+    hareket_sol_dizi[sag_nerde] = ia;
+    
+    sol_nerde++;
+    sag_nerde++;
+  
+  }else{
+    println("İkinci Mail Gönderiliyor..");
+    thread("sendMailIkinci");
   }
 }

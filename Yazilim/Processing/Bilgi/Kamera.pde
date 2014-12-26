@@ -3,7 +3,7 @@ int resim_baslangic = 0;
 
 void resim_cek() {
   
-  println("Resim Çekiliyor");
+  println("Resim Çekiliyor..");
   
   try{
     resim_bash();
@@ -16,7 +16,7 @@ void resim_cek() {
 
 void resim_bash() throws InterruptedException, IOException {
     Runtime run = Runtime.getRuntime();
-    Process proc = run.exec(new String[]{"/bin/sh", "-c", "fswebcam -r "+cozunurluk+"  /home/pi/guvenlik-"+resim_no+".jpg"});
+    Process proc = run.exec(new String[]{"/bin/sh", "-c", "fswebcam -r "+cozunurluk+"  /home/pi/resimler/guvenlik-"+resim_no+""});
     proc.waitFor();
     BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
     while(br.ready())

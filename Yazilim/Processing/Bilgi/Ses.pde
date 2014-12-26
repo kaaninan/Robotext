@@ -3,7 +3,7 @@ void ses(String cumle){
   if(cumle == "merhaba"){
     
     try{
-      ses_merhaba_bash();
+      thread("ses_merhaba_bash");
     }catch(Exception c){
       println("Ses Çalmada Sorun Oldu");
     }
@@ -11,7 +11,7 @@ void ses(String cumle){
   }else if(cumle == "hareket"){
   
     try{
-      ses_hareket_bash();
+      thread("ses_hareket_bash");
     }catch(Exception c){
       println("Ses Çalmada Sorun Oldu");
     }
@@ -19,7 +19,7 @@ void ses(String cumle){
   }else if(cumle == "hareket_basla"){
   
     try{
-      ses_hareket_basla_bash();
+      thread("ses_hareket_basla_bash");
     }catch(Exception c){
       println("Ses Çalmada Sorun Oldu");
     }
@@ -28,7 +28,7 @@ void ses(String cumle){
   }else if(cumle == "giris_yapildi"){
   
     try{
-      ses_giris_bash();
+      thread("ses_giris_bash");
     }catch(Exception c){
       println("Ses Çalmada Sorun Oldu");
     }

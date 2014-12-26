@@ -68,9 +68,8 @@ Arduino arduino_mega;
 // ## MEGA ## //
 
   // PWM
-  int a_uzaklik_sicaklik = 2;
-  int a_ekran = 3;
   int a_servo_1 = 4;
+  int a_servo_2 = 5;
   
   // DIGITAL
   int a_ses = 23;
@@ -80,15 +79,11 @@ Arduino arduino_mega;
   int a_buzzer = 24;
   
   // ANALOG
+  int a_uzaklik_sag_1 = 1;
+  int a_uzaklik_sag_2 = 2;
   
-  int a_uzaklik_on_1 = 1;
-  int a_uzaklik_on_2 = 2;
-  
-  int a_uzaklik_sag_1 = 3;
-  int a_uzaklik_sag_2 = 4;
-  
-  int a_uzaklik_sol_1 = 5;
-  int a_uzaklik_sol_2 = 6;
+  int a_uzaklik_sol_1 = 3;
+  int a_uzaklik_sol_2 = 4;
 
 
 
@@ -121,9 +116,12 @@ Arduino arduino_mega;
   String s_servo_1 = ikinci_sayfa+"servo_1";
   String s_servo_2 = ikinci_sayfa+"servo_2";
   
-  String s_uzaklik_on = ikinci_sayfa+"uzaklik_on";
-  String s_uzaklik_sag = ikinci_sayfa+"uzaklik_sag";
-  String s_uzaklik_sol = ikinci_sayfa+"uzaklik_sol";
+  String s_uzaklik_sag_1 = ikinci_sayfa+"sag_1";
+  String s_uzaklik_sag_2 = ikinci_sayfa+"sag_2";
+  String s_uzaklik_sol_1 = ikinci_sayfa+"sol_1";
+  String s_uzaklik_sol_2 = ikinci_sayfa+"sol_2";
+  
+  String s_durum = ikinci_sayfa+"durum";
 
 
 

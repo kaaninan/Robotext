@@ -41,7 +41,7 @@ void sendMailBirinci() {
       
       for(int i = resim_baslangic; i < (toplam+resim_baslangic) ; i++){
         messageBodyPart = new MimeBodyPart();
-        String filename = "/home/pi/guvenlik-"+i+".jpg";
+        String filename = "/home/pi/resimler/guvenlik-"+i+".jpg";
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
@@ -54,7 +54,7 @@ void sendMailBirinci() {
       
       Transport.send(message);
 
-      System.out.println("Mail Gonderildi");
+      System.out.println("Birinci Mail Gonderildi");
     } 
 
     finally 
@@ -110,7 +110,7 @@ void sendMailIkinci() {
       
       for(int i = resim_baslangic; i < (toplam+resim_baslangic) ; i++){
         messageBodyPart = new MimeBodyPart();
-        String filename = "/home/pi/guvenlik-"+i+".jpg";
+        String filename = "/home/pi/resimler/guvenlik-"+i+".jpg";
         DataSource source = new FileDataSource(filename);
         messageBodyPart.setDataHandler(new DataHandler(source));
         messageBodyPart.setFileName(filename);
@@ -123,7 +123,7 @@ void sendMailIkinci() {
       
       Transport.send(message);
 
-      System.out.println("Mail Gonderildi");
+      System.out.println("İkinci Mail Gonderildi");
     } 
 
     finally 
@@ -180,7 +180,7 @@ void sendMailBasla() {
       
       Transport.send(message);
 
-      System.out.println("Mail Gonderildi");
+      System.out.println("Baslangic Mail Gonderildi");
     } 
 
     finally 

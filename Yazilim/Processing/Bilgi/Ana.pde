@@ -10,7 +10,7 @@ boolean arduino_mega_bagli = false;
 boolean osc_gonder = false;
 boolean giris_etkin = false;
 
-String cozunurluk = "1280x720";
+String cozunurluk = "800x480";
 int wait = 6000;
 
 //String s_arduino_uno = "/dev/tty.usbmodem1421";
@@ -31,6 +31,9 @@ void setup() {
   remoteLocation = new NetAddress(IP, 9000);
   oscP5 = new OscP5(this, port);
 
+
+  if(osc_gonder)
+    gonder_durum("Pin Mode");
 
 
   // ARDUINO UNO PIN MODE
@@ -54,9 +57,6 @@ void setup() {
 
   // ARDUINO MEGA PIN MODE
   if (arduino_mega_bagli) {
-    arduino_mega.pinMode(a_uzaklik_sicaklik, Arduino.OUTPUT);
-    arduino_mega.pinMode(a_ekran, Arduino.OUTPUT);
-
     arduino_mega.pinMode(a_ses, Arduino.INPUT);
     arduino_mega.pinMode(a_hareket_1, Arduino.INPUT);
     arduino_mega.pinMode(a_hareket_2, Arduino.INPUT);
@@ -64,6 +64,7 @@ void setup() {
     arduino_mega.pinMode(a_buzzer, Arduino.OUTPUT);
 
     arduino_mega.pinMode(a_servo_1, Arduino.SERVO);
+    arduino_mega.pinMode(a_servo_2, Arduino.SERVO);
 
     gonder_motor_sifirla(true);
     gonder_uzaklik_sifirla();
@@ -76,12 +77,18 @@ void setup() {
   
   if(arduino_mega_bagli)
     arduino_mega.servoWrite(a_servo_1, 90);
-  
-  ses("merhaba");
+    
+  if(osc_gonder)
+    gonder_durum("Mail Atiliyor");
   
   sendMailBasla();
   
+  ses("merhaba");
+  
   time = millis();
+  
+  if(osc_gonder)
+    gonder_durum("Setup Finish");
 }
 
 
@@ -109,6 +116,9 @@ void draw() {
       gonder_hareket_sifirla();
       gonder_yakinlik_sifirla();
       gonder_voltaj_sifirla();
+      
+      if(osc_gonder)
+        gonder_durum("Giris Yapilmadi");
     }
       
   } else {
@@ -121,6 +131,9 @@ void draw() {
       
       if(hareket_first == true){
                                   // ###### SIFIRLAMA YAPILABİLİR ######## ///
+        if(osc_gonder)
+          gonder_durum("Hareket Algilama Etkinlestirildi");
+        println("Hareket Algılama Etkinleştirildi");
         ses("hareket_basla");
         hareket_first = false;
       }
@@ -128,7 +141,7 @@ void draw() {
       if (arduino_mega_bagli){
         oku_hareket_sag();
         oku_hareket_sol();
-        oku_ses();
+        //oku_ses();
       }
     }else{
       hareket_first = true;
@@ -140,7 +153,9 @@ void draw() {
   
   if(millis() - time >= wait){
     time = millis();
-    hareket_olc();
+    
+    if(olcmeye_basla)
+      hareket_olc();
   }
   
 }
