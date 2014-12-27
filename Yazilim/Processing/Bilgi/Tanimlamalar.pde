@@ -79,11 +79,11 @@ Arduino arduino_mega;
   int a_buzzer = 24;
   
   // ANALOG
-  int a_uzaklik_sag_1 = 1;
-  int a_uzaklik_sag_2 = 2;
+  int a_uzaklik_sag_1 = 0;
+  int a_uzaklik_sag_2 = 1;
   
-  int a_uzaklik_sol_1 = 3;
-  int a_uzaklik_sol_2 = 4;
+  int a_uzaklik_sol_1 = 2;
+  int a_uzaklik_sol_2 = 3;
 
 
 
